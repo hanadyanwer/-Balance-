@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,13 @@ Route::get('/workouts', [PageController::class, 'workouts'])->name('workouts');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/daily-plan', [PageController::class, 'dailyPlan'])->name('daily-plan');
 Route::get('/recipes', [PageController::class, 'recipes'])->name('recipes');
-Route::get('/profile', [PageController::class, 'profile'])->name('profile');
+
+// Profile Routes (requires authentication)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
 Route::get('/reset', [PageController::class, 'reset'])->name('reset');
 
 // المصادقة

@@ -1,93 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balance+ | Services</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+@section('title', 'Training Plans | Balance+')
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0B6B7A',
-                        primaryDark: '#07505A',
-                        accent: '#6FCF97',
-                        bgLight: '#F6FBFC',
-                        cardGray: '#e9ebed',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@section('styles')
+<style>
+    .active-fav i {
+        color: #ef4444 !important;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+    .active-fav {
+        background-color: #fef2f2 !important;
+        border-color: #fee2e2 !important;
+    }
+</style>
+@endsection
 
-        /* كلاس القلب النشط */
-        .active-fav i {
-            color: #ef4444 !important;
-            /* لون أحمر Tailwind */
-        }
-
-        .active-fav {
-            background-color: #fef2f2 !important;
-            /* خلفية حمراء خفيفة */
-            border-color: #fee2e2 !important;
-        }
-    </style>
-</head>
-
-<body class="bg-bgLight text-slate-900">
-
-    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="text-2xl font-bold text-primary tracking-tight">Balance+</div>
-
-            <button class="md:hidden text-primary text-2xl">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
-            <ul class="hidden md:flex items-center gap-8 text-sm font-semibold">
-                <li><a href="{{ route('home') }}" class="text-slate-500 hover:text-primary transition">Home</a></li>
-                <li><a href="#about" class="text-slate-500 hover:text-primary transition">About</a></li>
-                <li><a href="{{ route('services') }}" class="text-primary border-b-2 border-primary pb-1">Services</a>
-                </li>
-
-                <li class="relative group">
-                    <div class="flex items-center gap-2 cursor-pointer py-2" id="userBtn">
-                        <img src="{{ asset('images/openclipart-vectors-avatar-1299805_1280.png') }}"
-                            class="w-8 h-8 rounded-full border border-slate-200" alt="User">
-                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                    </div>
-                    <div
-                        class="absolute right-0 top-full w-40 bg-white shadow-xl rounded-xl py-2 border border-slate-100 hidden group-hover:block animate-fade-in">
-                        @auth
-                            <p class="px-4 py-2 text-xs font-bold text-primary">{{ Auth::user()->name }}</p>
-                            <a href="{{ route('profile') }}"
-                                class="block px-4 py-2 text-xs hover:bg-slate-50 transition">Profile</a>
-                            <form method="POST" action="{{ route('logout') }}" class="inline w-full">
-                                @csrf
-                                <button type="submit"
-                                    class="w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 transition">Logout</button>
-                            </form>
-                        @else
-                            <a href="{{ route('login') }}"
-                                class="block px-4 py-2 text-xs hover:bg-slate-50 transition">Login</a>
-                        @endauth
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="max-w-7xl mx-auto px-6 py-12 flex-grow">
+@section('content')
+<section class="max-w-7xl mx-auto px-6 py-12 flex-grow">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
                 <h2 class="text-5xl font-black text-slate-900 tracking-tight mb-4">Training Plans</h2>
@@ -123,7 +52,7 @@
                 data-video="https://www.youtube.com/watch?v=ml6cT4AZdqI">
                 <div
                     class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-orange-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🏃</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًںڈƒ</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Intermediate</span>
                 </div>
@@ -150,7 +79,7 @@
                 data-desc="A gentle flow of yoga poses aimed at improving flexibility, balance, and mental clarity."
                 data-video="https://www.youtube.com/watch?v=v7AYKMP6rOE">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-blue-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🧘</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں§ک</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Beginner</span>
                 </div>
@@ -178,7 +107,7 @@
                 data-video="https://www.youtube.com/watch?v=q6_9v9I3oYI">
                 <div
                     class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-slate-100 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🏋️</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًںڈ‹ï¸ڈ</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
                 </div>
@@ -206,7 +135,7 @@
                 data-video="https://www.youtube.com/watch?v=dJlFmxiL11s">
                 <div
                     class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-green-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🤸</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں¤¸</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Intermediate</span>
                 </div>
@@ -234,7 +163,7 @@
                 data-video="https://www.youtube.com/watch?v=gC_L9qAHVJ8">
                 <div
                     class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-emerald-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🚶</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًںڑ¶</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Beginner</span>
                 </div>
@@ -261,7 +190,7 @@
                 data-desc="The ultimate fat burner using the 20-10 Tabata method for maximum efficiency."
                 data-video="https://www.youtube.com/watch?v=E_mbi_p_e6g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-red-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🔥</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں”¥</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
                 </div>
@@ -287,7 +216,7 @@
                 data-desc="Tone and sculpt your muscles using controlled, precise Pilates movements."
                 data-video="https://www.youtube.com/watch?v=y3_m9P2_Iog">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-pink-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🧘‍♀️</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں§کâ€چâ™€ï¸ڈ</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Intermediate</span>
                 </div>
@@ -315,7 +244,7 @@
                 data-video="https://www.youtube.com/watch?v=K6Yv6X9N-T0">
                 <div
                     class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-gray-100 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🥊</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں¥ٹ</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
                 </div>
@@ -342,7 +271,7 @@
                 data-desc="Deep static stretching to help release muscle tension and improve range of motion."
                 data-video="https://www.youtube.com/watch?v=2eA2Koq6pTI">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-cyan-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">☁️</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">âکپï¸ڈ</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Beginner</span>
                 </div>
@@ -368,7 +297,7 @@
                 data-video="https://www.youtube.com/watch?v=Eml2xnoLpYE">
                 <div
                     class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-indigo-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">🦵</span>
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں¦µ</span>
                     <span
                         class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
                 </div>
@@ -392,149 +321,4 @@
 
         </div>
     </section>
-
-    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center px-4">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="overlay"></div>
-        <div class="bg-white rounded-4xl p-8 max-w-sm w-full relative z-10 shadow-2xl text-center">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-2xl"></i>
-            </button>
-            <div
-                class="w-20 h-20 bg-primary/10 text-primary rounded-3xl flex items-center justify-center mx-auto mb-6 text-3xl">
-                <i class="fa-solid fa-play"></i>
-            </div>
-            <h3 id="modalTitle" class="text-2xl font-bold mb-3 text-slate-900">Workout Details</h3>
-            <p id="modalDescription" class="text-slate-500 mb-8 font-medium italic leading-relaxed"></p>
-            <a id="modalVideoLink" href="#" target="_blank"
-                class="flex items-center justify-center gap-3 w-full bg-red-500 text-white py-4 rounded-2xl font-bold hover:bg-red-600 transition shadow-lg shadow-red-200">
-                <i class="fa-brands fa-youtube text-xl"></i>
-                Watch Video
-            </a>
-        </div>
-    </div>
-
-    <footer class="bg-[#0F172A] text-white pt-16 pb-8 mt-auto">
-        <div class="max-w-[1100px] mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-10 text-sm">
-            <div>
-                <div class="text-accent text-2xl font-bold mb-3">Balance+</div>
-                <p class="text-slate-400 leading-relaxed">Science-based nutrition and workouts for a healthier version
-                    of you.</p>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Quick Links</h4>
-                <ul class="text-slate-400 space-y-3">
-                    <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Services</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Support</h4>
-                <ul class="text-slate-400 space-y-3">
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Follow Us</h4>
-                <div class="flex gap-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">f</a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">in</a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="5" />
-                            <circle cx="12" cy="12" r="4" />
-                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-white/5 pt-8 text-center text-slate-500 text-xs">
-            © 2026 Balance+ · All rights reserved
-        </div>
-    </footer>
-
-    <script>
-        const filterBtns = document.querySelectorAll('.filter');
-        const cards = document.querySelectorAll('.card');
-        const heartBtns = document.querySelectorAll('.heart-btn');
-        const modal = document.getElementById('videoModal');
-
-        // Logic for "View Plan" Buttons & Modal
-        document.querySelectorAll('.view-plan-btn').forEach(button => {
-            button.onclick = function () {
-                const card = this.closest('.card');
-                const title = card.querySelector('h3').innerText;
-                const desc = card.getAttribute('data-desc');
-                const video = card.getAttribute('data-video');
-
-                document.getElementById('modalTitle').innerText = title;
-                document.getElementById('modalDescription').innerText = desc;
-                document.getElementById('modalVideoLink').href = video;
-
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            };
-        });
-
-        // Close Modal Function
-        function closeModal() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // Close when clicking outside content
-        document.getElementById('overlay').onclick = closeModal;
-
-        // Filter Logic
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Update button UI
-                filterBtns.forEach(b => {
-                    b.classList.remove('active', 'bg-primary', 'text-white');
-                    b.classList.add('text-slate-500');
-                });
-                btn.classList.add('active', 'bg-primary', 'text-white');
-                btn.classList.remove('text-slate-500');
-
-                const filterValue = btn.getAttribute('data-filter');
-
-                // Filter Cards
-                cards.forEach(card => {
-                    const category = card.getAttribute('data-category');
-                    const isFav = card.querySelector('.heart-btn').classList.contains('active-fav');
-
-                    if (filterValue === 'all') {
-                        card.style.display = 'block';
-                    } else if (filterValue === 'favorites') {
-                        card.style.display = isFav ? 'block' : 'none';
-                    } else {
-                        card.style.display = (category === filterValue) ? 'block' : 'none';
-                    }
-                });
-            });
-        });
-
-        // Favorites Heart Toggle
-        heartBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                btn.classList.toggle('active-fav');
-
-                // If we are currently in Favorites view, hide the card immediately when unhearted
-                const activeFilter = document.querySelector('.filter.active').getAttribute('data-filter');
-                if (activeFilter === 'favorites' && !btn.classList.contains('active-fav')) {
-                    btn.closest('.card').style.display = 'none';
-                }
-            });
-        });
-    </script>
-</body>
-
-</html>
+@endsection

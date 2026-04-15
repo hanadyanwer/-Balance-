@@ -1,54 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password | Balance+</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0B6B7A',
-                        'primary-dark': '#07505A',
-                        accent: '#6FCF97',
-                        sky: '#7DD3FC',
-                        success: '#10B981',
+﻿@extends('layouts.auth')
+
+@section('title', 'Reset Password | Balance+')
+
+@section('styles')
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'primary-dark': '#07505A',
+                    success: '#10B981',
+                },
+                animation: {
+                    'float-slow': 'float 20s ease-in-out infinite',
+                    'float-reverse': 'float 15s ease-in-out infinite reverse',
+                    'pulse-slow': 'pulse-custom 3s ease-in-out infinite',
+                    'slide-down': 'slideDown 0.3s ease-out forwards',
+                },
+                keyframes: {
+                    float: {
+                        '0%, 100%': { transform: 'translateY(0) translateX(0)' },
+                        '50%': { transform: 'translateY(-30px) translateX(20px)' },
                     },
-                    animation: {
-                        'float-slow': 'float 20s ease-in-out infinite',
-                        'float-reverse': 'float 15s ease-in-out infinite reverse',
-                        'pulse-slow': 'pulse-custom 3s ease-in-out infinite',
-                        'slide-down': 'slideDown 0.3s ease-out forwards',
+                    'pulse-custom': {
+                        '0%, 100%': { transform: 'scale(1)' },
+                        '50%': { transform: 'scale(1.05)' },
                     },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0) translateX(0)' },
-                            '50%': { transform: 'translateY(-30px) translateX(20px)' },
-                        },
-                        'pulse-custom': {
-                            '0%, 100%': { transform: 'scale(1)' },
-                            '50%': { transform: 'scale(1.05)' },
-                        },
-                        slideDown: {
-                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
+                    slideDown: {
+                        '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                        '100%': { opacity: '1', transform: 'translateY(0)' },
                     }
                 }
             }
         }
-    </script>
-</head>
-<body class="bg-gradient-to-br from-[#F0F9FA] via-[#E8F4F5] to-[#F6FBFC] min-h-screen flex items-center justify-center p-5 relative overflow-hidden font-sans">
+    }
+</script>
+<style>
+    body {
+        background: linear-gradient(to bottom right, #f0f9fa, #e8f4f5, #f6fbfc) !important;
+    }
 
-    <div class="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(111,207,151,0.08)_0%,transparent_70%)] rounded-full animate-float-slow"></div>
-    <div class="absolute -bottom-[25%] -left-[8%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(125,211,252,0.06)_0%,transparent_70%)] rounded-full animate-float-reverse"></div>
+    body::before {
+        content: '';
+        position: absolute;
+        top: -20%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(111,207,151,0.08), transparent 70%);
+        border-radius: 9999px;
+        animation: float 20s ease-in-out infinite;
+    }
 
-    <div class="max-w-[480px] w-full relative z-10">
+    body::after {
+        content: '';
+        position: absolute;
+        bottom: -25%;
+        left: -8%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(125,211,252,0.06), transparent 70%);
+        border-radius: 9999px;
+        animation: float 15s ease-in-out infinite reverse;
+    }
+</style>
+@endsection
+
+@section('content')<div class="max-w-[480px] w-full relative z-10">
         <div class="bg-white rounded-[24px] shadow-[0_12px_48px_rgba(11,107,122,0.12)] overflow-hidden border border-primary/5">
-            
+
             <div class="pt-12 px-10 pb-8 text-center bg-gradient-to-br from-primary/[0.03] to-accent/[0.02] relative">
                 <div class="w-16 h-16 mx-auto mb-4 animate-pulse-slow drop-shadow-[0_4px_12px_rgba(11,107,122,0.15)]">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -56,9 +76,9 @@
                         <path d="M35 50 L45 60 L65 40" fill="none" stroke="#6FCF97" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                
+
                 <div class="text-[32px] font-bold text-primary mb-2 tracking-tight">Balance+</div>
-                
+
                 <div class="inline-flex items-center gap-1.5 bg-gradient-to-br from-accent/[0.12] to-emerald-500/[0.08] text-emerald-600 px-4 py-2 rounded-full text-xs font-semibold mb-6 border border-emerald-500/15">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     Don't worry, we've got you covered
@@ -97,7 +117,7 @@
                             <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
                             </svg>
-                            <input 
+                            <input
                                 type="email" id="email" required
                                 class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all placeholder:text-slate-400"
                                 placeholder="you@example.com"
@@ -124,8 +144,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-    <script>
+@section('scripts')
         document.getElementById('resetForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -136,6 +157,4 @@
                 console.log('Password reset requested for:', email);
             }
         });
-    </script>
-</body>
-</html>
+@endsection

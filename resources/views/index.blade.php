@@ -1,139 +1,33 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+﻿@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balance+ | Cultivate a Healthier Life</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0B6B7A',
-                        primaryDark: '#07505A',
-                        accent: '#6FCF97',
-                        bg: '#F6FBFC',
-                    },
-                    borderRadius: { '4xl': '2rem' },
-                    boxShadow: { 'custom': '0 2px 12px rgba(11, 107, 122, 0.08)' }
-                }
-            }
-        }
-    </script>
-    <style>
-        .hamburger span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: #0B6B7A;
-            transition: 0.3s;
-        }
+@section('title', 'Balance+ | Cultivate a Healthier Life')
 
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
+@section('styles')
+<style>
+    .slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: 0;
+    }
 
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
+    .slide.active {
+        opacity: 1;
+        z-index: 10;
+    }
 
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
+    .dot.active {
+        width: 2rem;
+        background-color: white;
+    }
+</style>
+@endsection
 
-        .fade-in {
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .slide {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            /* الكل مخفي */
-            transition: opacity 1s ease-in-out;
-            /* حركة ناعمة */
-            z-index: 0;
-        }
-
-        .slide.active {
-            opacity: 1;
-            z-index: 10;
-        }
-
-        /* تنسيق النقطة النشطة */
-        .dot.active {
-            width: 2rem;
-            /* يعني w-8 في تايلوند */
-            background-color: white;
-        }
-    </style>
-</head>
-
-<body class="font-sans text-slate-900 bg-bg overflow-x-hidden flex flex-col min-h-screen">
-
-    <nav class="sticky top-0 z-[1000] bg-white/80 backdrop-blur-md shadow-custom border-b border-slate-100">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold text-primary tracking-tight italic  decoration-accent italic">Balance+</div>
-
-            <button id="hamburger" class="md:hidden flex flex-col gap-1.5 focus:outline-none hamburger">
-                <span></span><span></span><span></span>
-            </button>
-
-            <ul id="navLinks" class="hidden md:flex items-center gap-8 font-medium text-slate-700">
-                <li><a href="{{ route('index') }}#home"
-                        class="hover:text-primary transition-all relative group">Home<span
-                            class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span></a>
-                </li>
-                <li><a href="{{ route('index') }}#about"
-                        class="hover:text-primary transition-all relative group">About<span
-                            class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span></a>
-                </li>
-                <li><a href="{{ route('index') }}#services"
-                        class="hover:text-primary transition-all relative group">Services<span
-                            class="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span></a>
-                </li>
-                <li class="flex items-center gap-4 ml-4">
-                    @auth
-                        <a href="{{ route('home') }}"
-                            class="px-5 py-2 bg-primary text-white rounded-lg hover:bg-primaryDark shadow-md transition-all text-sm font-bold">Dashboard</a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit"
-                                class="px-5 py-2 text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-50 transition-all text-sm font-bold">Logout</button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="px-5 py-2 bg-primary text-white rounded-lg hover:bg-primaryDark shadow-md transition-all text-sm font-bold border-2 border-primary">Log
-                            in</a>
-                        <a href="{{ route('signup') }}"
-                            class="px-5 py-2 text-primary border-2 border-primary rounded-lg hover:bg-primary hover:text-white transition-all text-sm font-bold">Sign
-                            up</a>
-                    @endauth
-                </li>
-            </ul>
-        </div>
-
-
-        </div>
-    </nav>
-
-    <section class="relative py-12 md:py-24 overflow-hidden" id="home">
+@section('content')
+<section class="relative py-12 md:py-24 overflow-hidden" id="home">
         <div
             class="absolute top-0 left-0 w-[800px] h-[600px] bg-accent/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
         </div>
@@ -230,7 +124,7 @@
                         goals, lifestyle, and preferences for consistent progress.</p>
                     <a href="signup.html"
                         class="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn
-                        more <span>→</span></a>
+                        more <span>â†’</span></a>
                 </div>
 
                 <div
@@ -247,7 +141,7 @@
                     <h3 class="text-xl font-bold mb-3 text-slate-900">Healthy Recipes</h3>
                     <p class="text-slate-500 text-sm mb-6">Delicious, nutritious meal ideas with detailed nutrition
                         information and easy-to-follow instructions.</p>
-                    <a href="signup.html" class="text-accent font-bold text-sm flex items-center gap-2">Learn more →</a>
+                    <a href="signup.html" class="text-accent font-bold text-sm flex items-center gap-2">Learn more â†’</a>
                 </div>
 
                 <div
@@ -265,7 +159,7 @@
                     <p class="text-slate-500 text-sm mb-6">Customized exercise routines for all fitness levels, from
                         beginner-friendly to advanced training.</p>
                     <a href="signup.html" class="text-sky-600 font-bold text-sm flex items-center gap-2">Learn more
-                        →</a>
+                        â†’</a>
                 </div>
 
                 <div
@@ -282,7 +176,7 @@
                     <p class="text-slate-500 text-sm mb-6">Simple hydration monitoring with reminders to help you
                         maintain optimal water intake throughout the day.</p>
                     <a href="signup.html" class="text-primary font-bold text-sm flex items-center gap-2">Learn more
-                        →</a>
+                        â†’</a>
                 </div>
             </div>
         </div>
@@ -435,92 +329,4 @@
             </div>
             <div>
                 <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Quick Links</h4>
-                <ul class="text-slate-400 space-y-3">
-                    <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Services</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Support</h4>
-                <ul class="text-slate-400 space-y-3">
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Follow Us</h4>
-                <div class="flex gap-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">f</a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">in</a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="5" />
-                            <circle cx="12" cy="12" r="4" />
-                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-white/5 pt-8 text-center text-slate-500 text-xs">
-            © 2026 Balance+ · All rights reserved
-        </div>
-    </footer>
-
-    <script>
-        // Hamburger Menu
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Intersection Observer (Reveal on Scroll)
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Hero Slider
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.dot');
-
-        function updateSlider() {
-            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
-            dots.forEach((d, i) => {
-                d.classList.toggle('active', i === currentSlide);
-                d.className = i === currentSlide ? 'w-8 h-2 bg-white rounded-full transition-all dot active' : 'w-2 h-2 bg-white/50 rounded-full transition-all dot';
-            });
-        }
-
-        function moveSlide(direction) {
-            currentSlide = (currentSlide + direction + slides.length) % slides.length;
-            updateSlider();
-        }
-
-        // Auto slide every 5 seconds
-        setInterval(() => moveSlide(1), 5000);
-
-        // Click on dots
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
-                updateSlider();
-            });
-        });
-
-    </script>
-</body>
-
-</html>
+@endsection

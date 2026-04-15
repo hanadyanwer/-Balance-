@@ -1,99 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balance+ | Services</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0B6B7A',
-                        primaryDark: '#07505A',
-                        accent: '#6FCF97',
-                        bgLight: '#F6FBFC',
-                        cardGray: '#e9ebed',
-                    },
-                    borderRadius: {
-                        '4xl': '2rem',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@section('title', 'Healthy Recipes | Balance+')
 
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+@section('styles')
+<style>
+    .heart.active-fav {
+        color: #ef4444 !important;
+        background-color: #fef2f2 !important;
+        border-color: #fee2e2 !important;
+    }
 
-        /* كلاس القلب عند التفعيل */
-        .heart.active-fav {
-            color: #ef4444 !important;
-            background-color: #fef2f2 !important;
-            border-color: #fee2e2 !important;
-        }
+    .filter.active {
+        background-color: #0B6B7A !important;
+        color: white !important;
+        box-shadow: 0 4px 12px rgba(11, 107, 122, 0.2);
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endsection
 
-        /* تنسيق الزر النشط في الفلترة */
-        .filter.active {
-            background-color: #0B6B7A !important;
-            color: white !important;
-            box-shadow: 0 4px 12px rgba(11, 107, 122, 0.2);
-        }
-    </style>
-</head>
-
-<body class="bg-bgLight text-slate-900">
-
-    <nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="text-2xl font-bold text-primary tracking-tight">Balance+</div>
-
-            <button class="md:hidden text-primary text-2xl">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
-            <ul class="hidden md:flex items-center gap-8 text-sm font-semibold">
-                <li><a href="{{ route('home') }}" class="text-slate-500 hover:text-primary transition">Home</a></li>
-                <li><a href="#about" class="text-slate-500 hover:text-primary transition">About</a></li>
-                <li><a href="{{ route('services') }}" class="text-primary border-b-2 border-primary pb-1">Services</a>
-                </li>
-
-                <li class="relative group">
-                    <div class="flex items-center gap-2 cursor-pointer py-2" id="userBtn">
-                        <img src="https://openclipart.org/image/800px/247319"
-                            class="w-8 h-8 rounded-full border border-slate-200" alt="User">
-                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                    </div>
-                    <div
-                        class="absolute right-0 top-full w-40 bg-white shadow-xl rounded-xl py-2 border border-slate-100 hidden group-hover:block">
-                        @auth
-                            <p class="px-4 py-2 text-xs font-bold text-primary">{{ Auth::user()->name }}</p>
-                            <a href="{{ route('profile') }}"
-                                class="block px-4 py-2 text-xs hover:bg-slate-50 transition">Profile</a>
-                            <form method="POST" action="{{ route('logout') }}" class="inline w-full">
-                                @csrf
-                                <button type="submit"
-                                    class="w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 transition">Logout</button>
-                            </form>
-                        @else
-                            <a href="{{ route('login') }}"
-                                class="block px-4 py-2 text-xs hover:bg-slate-50 transition">Login</a>
-                        @endauth
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-
-    <section class="max-w-7xl mx-auto px-6 py-12">
+@section('content')
+<section class="max-w-7xl mx-auto px-6 py-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
                 <h2 class="text-5xl font-black text-slate-900 tracking-tight mb-4">Our Healthy Menu</h2>
@@ -126,7 +53,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="breakfast"
-                data-ingredients="1 cup Rolled Oats, 1 cup Almond Milk, 1 tbsp Chia Seeds, ½ cup Fresh Blueberries, 1 tsp Honey"
+                data-ingredients="1 cup Rolled Oats, 1 cup Almond Milk, 1 tbsp Chia Seeds, آ½ cup Fresh Blueberries, 1 tsp Honey"
                 data-nutrition="Cals: 320 | Protein: 10g | Carbs: 45g | Fats: 7g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/altumcode-BT-Cx1n1LXA-unsplash.jpg"
@@ -208,7 +135,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="breakfast"
-                data-ingredients="1 slice Sourdough Bread, ½ Ripe Avocado, Chili Flakes, 1 tsp Lemon juice, Sea salt"
+                data-ingredients="1 slice Sourdough Bread, آ½ Ripe Avocado, Chili Flakes, 1 tsp Lemon juice, Sea salt"
                 data-nutrition="Cals: 310 | Protein: 8g | Carbs: 35g | Fats: 18g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/imad-786-w1NiWDrp68M-unsplash.jpg"
@@ -235,7 +162,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="breakfast"
-                data-ingredients="1 Ripe Banana, 2 Eggs, ½ tsp Cinnamon, 1 tbsp Maple Syrup, Coconut Oil for cooking"
+                data-ingredients="1 Ripe Banana, 2 Eggs, آ½ tsp Cinnamon, 1 tbsp Maple Syrup, Coconut Oil for cooking"
                 data-nutrition="Cals: 290 | Protein: 12g | Carbs: 40g | Fats: 10g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/eiliv-aceron-exyTIrXyqm0-unsplash.jpg"
@@ -262,7 +189,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="lunch"
-                data-ingredients="150g Chicken Breast, ½ cup Cooked Quinoa, 1 cup Steamed Broccoli, 1 clove Garlic, Lemon Tahini dressing"
+                data-ingredients="150g Chicken Breast, آ½ cup Cooked Quinoa, 1 cup Steamed Broccoli, 1 clove Garlic, Lemon Tahini dressing"
                 data-nutrition="Cals: 450 | Protein: 40g | Carbs: 40g | Fats: 12g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/sumit-bhatia-g7WrssBb1Ak-unsplash.jpg"
@@ -315,7 +242,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="lunch"
-                data-ingredients="½ cup Chickpeas, 1 Cucumber, 1 Tomato, Fresh Parsley, Olive oil & Vinegar"
+                data-ingredients="آ½ cup Chickpeas, 1 Cucumber, 1 Tomato, Fresh Parsley, Olive oil & Vinegar"
                 data-nutrition="Cals: 320 | Protein: 12g | Carbs: 45g | Fats: 9g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/declan-sun-TsPlj-rqU9g-unsplash.jpg"
@@ -342,7 +269,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="lunch"
-                data-ingredients="½ cup Brown Lentils, 1 Carrot, 1 stalk Celery, Cumin, Turmeric, Vegetable broth"
+                data-ingredients="آ½ cup Brown Lentils, 1 Carrot, 1 stalk Celery, Cumin, Turmeric, Vegetable broth"
                 data-nutrition="Cals: 280 | Protein: 18g | Carbs: 40g | Fats: 4g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/elena-leya-_jyB1ndDFQE-unsplash.jpg"
@@ -396,7 +323,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="dinner"
-                data-ingredients="1 Medium Sweet Potato, ½ cup Black Beans, ¼ cup Corn, 1 tsp Lime juice, Fresh Cilantro"
+                data-ingredients="1 Medium Sweet Potato, آ½ cup Black Beans, آ¼ cup Corn, 1 tsp Lime juice, Fresh Cilantro"
                 data-nutrition="Cals: 300 | Protein: 10g | Carbs: 55g | Fats: 2g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/david-todd-mccarty-IzJTWRzipGc-unsplash.jpg"
@@ -423,7 +350,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="dinner"
-                data-ingredients="150g Shrimp, 2 cups Cauliflower rice, ¼ cup Peas, ¼ cup Diced Carrots, Soy sauce (Low sodium)"
+                data-ingredients="150g Shrimp, 2 cups Cauliflower rice, آ¼ cup Peas, آ¼ cup Diced Carrots, Soy sauce (Low sodium)"
                 data-nutrition="Cals: 250 | Protein: 25g | Carbs: 10g | Fats: 6g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/diego-arenas-de-rodrigo-kPAhQN-vxYg-unsplash.jpg"
@@ -450,7 +377,7 @@
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
                 data-category="dinner"
-                data-ingredients="200g Firm Tofu, 2 cups Mixed Greens, 1 tbsp Sesame seeds, ½ Avocado, Ginger dressing"
+                data-ingredients="200g Firm Tofu, 2 cups Mixed Greens, 1 tbsp Sesame seeds, آ½ Avocado, Ginger dressing"
                 data-nutrition="Cals: 270 | Protein: 20g | Carbs: 12g | Fats: 15g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/pexels-cottonbro-3297367.jpg"
@@ -553,7 +480,7 @@
             </div>
 
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="snack" data-ingredients="½ cup Low-fat Cottage Cheese, ½ cup Fresh Pineapple chunks"
+                data-category="snack" data-ingredients="آ½ cup Low-fat Cottage Cheese, آ½ cup Fresh Pineapple chunks"
                 data-nutrition="Cals: 140 | Protein: 12g | Carbs: 10g | Fats: 2g">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
                     <img src="../images/andrew-molyneaux-X00aKdald68-unsplash.jpg"
@@ -604,188 +531,4 @@
 
         </div>
     </section>
-    <div id="recipeModal"
-        class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
-        <div
-            class="bg-white w-full max-w-4xl rounded-[3rem] overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300 relative my-auto">
-            <button
-                class="close-modal absolute top-6 right-6 z-[110] w-12 h-12 bg-white/90 rounded-full flex items-center justify-center text-2xl hover:bg-white transition shadow-lg">&times;</button>
-            <div class="flex flex-col md:flex-row max-h-[90vh]">
-                <div class="md:w-1/2 h-64 md:h-auto overflow-hidden">
-                    <img id="modalImg" src="" class="w-full h-full object-cover">
-                </div>
-                <div class="md:w-1/2 p-8 md:p-12 overflow-y-auto">
-                    <h2 id="modalTitle" class="text-3xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
-                    </h2>
-                    <div class="flex gap-6 mb-8 bg-slate-50 p-4 rounded-3xl border border-slate-100">
-                        <div class="flex flex-col"><span
-                                class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Time</span><span
-                                class="font-bold text-primary" id="modalTime"></span></div>
-                        <div class="w-px h-10 bg-slate-200"></div>
-                        <div class="flex flex-col"><span
-                                class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Energy</span><span
-                                class="font-bold text-primary" id="modalCalories"></span></div>
-                    </div>
-                    <h3
-                        class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2 uppercase tracking-wide text-xs">
-                        Ingredients</h3>
-                    <ul id="ingredientsList" class="space-y-3 mb-10 text-slate-600 font-medium"></ul>
-                    <div class="p-6 rounded-3xl bg-primary text-white mb-8">
-                        <h4 class="text-[10px] font-black uppercase tracking-widest opacity-70 mb-1">Nutrition Facts
-                        </h4>
-                        <p id="modalNutrition" class="text-lg font-bold italic"></p>
-                    </div>
-                    <button
-                        class="w-full bg-accent text-slate-900 font-black py-4 rounded-2xl hover:shadow-2xl hover:shadow-accent/40 transition active:scale-95">START
-                        COOKING</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer class="bg-[#0F172A] text-white pt-16 pb-8 mt-auto">
-        <div class="max-w-[1100px] mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-10 text-sm">
-            <div>
-                <div class="text-accent text-2xl font-bold mb-3">Balance+</div>
-                <p class="text-slate-400 leading-relaxed">Science-based nutrition and workouts for a healthier version
-                    of you.</p>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Quick Links</h4>
-                <ul class="text-slate-400 space-y-3">
-                    <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Services</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Support</h4>
-                <ul class="text-slate-400 space-y-3">
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Follow Us</h4>
-                <div class="flex gap-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">f</a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">in</a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="5" />
-                            <circle cx="12" cy="12" r="4" />
-                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-white/5 pt-8 text-center text-slate-500 text-xs">
-            © 2026 Balance+ · All rights reserved
-        </div>
-    </footer>
-    <script>
-        // 1. تعريف العناصر الأساسية
-        const filterBtns = document.querySelectorAll('.filter');
-        const recipeCards = document.querySelectorAll('.card');
-        const hearts = document.querySelectorAll('.heart');
-
-        // 2. منطق الفلترة (Filtering Logic)
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // تحديث حالة الأزرار النشطة (UI active state)
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filterValue = btn.getAttribute('data-filter');
-
-                recipeCards.forEach(card => {
-                    const category = card.getAttribute('data-category');
-                    const isFav = card.querySelector('.heart').classList.contains('active-fav');
-
-                    if (filterValue === 'all') {
-                        card.style.display = 'block';
-                    } else if (filterValue === 'favorites') {
-                        card.style.display = isFav ? 'block' : 'none';
-                    } else {
-                        card.style.display = category === filterValue ? 'block' : 'none';
-                    }
-                });
-            });
-        });
-
-        // 3. نظام المفضلة (Favorites System)
-        hearts.forEach((heart) => {
-            heart.addEventListener('click', (e) => {
-                e.stopPropagation(); // منع فتح الـ Modal عند الضغط على القلب
-                heart.classList.toggle('active-fav');
-            });
-        });
-
-        // 4. عرض تفاصيل الوصفة باستخدام SweetAlert
-        document.querySelectorAll('.view-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                // الوصول للـ Card واستخراج البيانات
-                const card = this.closest('.card');
-                const title = card.querySelector('h3').innerText;
-                const description = card.querySelector('.description') ? card.querySelector('.description').innerText : card.querySelector('p').innerText;
-                const ingredients = card.getAttribute('data-ingredients');
-                const nutrition = card.getAttribute('data-nutrition');
-                const image = card.querySelector('img').src;
-                const category = card.getAttribute('data-category');
-
-                Swal.fire({
-                    html: `
-                    <div class="text-left font-sans">
-                        <div class="relative h-56 overflow-hidden rounded-3xl mb-6 shadow-sm">
-                            <img src="${image}" class="w-full h-full object-cover">
-                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[11px] font-black text-[#0B6B7A] uppercase shadow-sm">
-                                ${category}
-                            </span>
-                        </div>
-
-                        <h2 class="text-3xl font-black text-slate-900 mb-2">${title}</h2>
-                        <p class="text-slate-500 italic mb-8 border-l-4 border-[#0B6B7A]/20 pl-4 text-sm leading-relaxed">${description}</p>
-
-                        <div class="space-y-6">
-                            <div>
-                                <h4 class="font-bold text-[#0B6B7A] flex items-center gap-2 mb-3">
-                                    <i class="fa-solid fa-wheat-awn"></i> Ingredients
-                                </h4>
-                                <div class="bg-slate-50 p-5 rounded-[2rem] border border-slate-100 text-slate-600 text-sm leading-relaxed">
-                                    ${ingredients}
-                                </div>
-                            </div>
-
-                            <div class="bg-[#0B6B7A]/5 p-5 rounded-[2rem] border border-[#0B6B7A]/10 flex items-center gap-5">
-                                <div class="bg-[#0B6B7A] text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-[#0B6B7A]/20">
-                                    <i class="fa-solid fa-chart-simple text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-[#07505A] text-sm mb-1">Nutrition Facts</h4>
-                                    <p class="text-xs text-[#0B6B7A] font-mono font-bold">${nutrition}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `,
-                    showCloseButton: true,
-                    showConfirmButton: true,
-                    confirmButtonText: 'Back to Menu',
-                    confirmButtonColor: '#0B6B7A',
-                    padding: '2rem',
-                    customClass: {
-                        popup: 'rounded-[3rem] border-none shadow-2xl',
-                        confirmButton: 'rounded-2xl px-10 py-4 font-bold uppercase text-xs tracking-widest transition-transform hover:scale-105'
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-
-</html>
+@endsection
