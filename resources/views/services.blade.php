@@ -26,13 +26,20 @@
                     <h3 class="text-2xl font-bold text-slate-800 mb-3">Daily Plan</h3>
                     <p class="text-slate-600 mb-6 leading-relaxed">Personalized daily nutrition goals designed to keep
                         your metabolism and energy at peak levels.</p>
-                    <a href="{{ route('daily-plan') }}"
-                        class="inline-block bg-[#0a7c86] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-primaryDark transition shadow-md shadow-cyan-900/10">
-                        View Full Plan
-                    </a>
+                    @guest
+                        <button onclick="showLoginPrompt()"
+                            class="inline-block bg-[#0B6B7A] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-[#094d57] transition shadow-md">
+                            View Full Plan
+                        </button>
+                    @else
+                        <a href="{{ route('daily-plan') }}"
+                            class="inline-block bg-[#0B6B7A] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-[#094d57] transition shadow-md">
+                            View Full Plan
+                        </a>
+                    @endguest
                 </div>
                 <div class="w-full md:w-48 h-48 rounded-2xl overflow-hidden order-1 md:order-2 shadow-inner">
-                    <img src="../images/scottwebb-training-828726.jpg" class="w-full h-full object-cover"
+                    <img src="{{ asset('images/scottwebb-training-828726.jpg') }}" class="w-full h-full object-cover"
                         alt="Daily Plan">
                 </div>
             </div>
@@ -44,12 +51,12 @@
                     <p class="text-slate-600 mb-6 leading-relaxed">Discover a library of nutritious and delicious
                         recipes with full caloric and macro breakdowns.</p>
                     <a href="{{ route('recipes') }}"
-                        class="inline-block bg-[#1fa463] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-green-700 transition shadow-md shadow-green-900/10">
+                        class="inline-block bg-[#0B6B7A] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-[#094d57] transition shadow-md">
                         View Full Recipes
                     </a>
                 </div>
                 <div class="w-full md:w-48 h-48 rounded-2xl overflow-hidden order-1 md:order-2 shadow-inner">
-                    <img src="../images/katie-smith-uQs1802D0CQ-unsplash.jpg" class="w-full h-full object-cover"
+                    <img src="{{ asset('images/katie-smith-uQs1802D0CQ-unsplash.jpg') }}" class="w-full h-full object-cover"
                         alt="Recipes">
                 </div>
             </div>
@@ -61,16 +68,37 @@
                     <p class="text-slate-600 mb-6 leading-relaxed">Evidence-based training routines from beginner to
                         advanced levels to help you reach your goals.</p>
                     <a href="{{ route('workouts') }}"
-                        class="inline-block bg-[#1fa463] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-green-700 transition shadow-md shadow-green-900/10">
+                        class="inline-block bg-[#0B6B7A] text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-[#094d57] transition shadow-md">
                         View Full Plan
                     </a>
                 </div>
                 <div class="w-full md:w-48 h-48 rounded-2xl overflow-hidden order-1 md:order-2 shadow-inner">
-                    <img src="../images/karsten-winegeart-0Wra5YYVQJE-unsplash.jpg" class="w-full h-full object-cover"
+                    <img src="{{ asset('images/karsten-winegeart-0Wra5YYVQJE-unsplash.jpg') }}" class="w-full h-full object-cover"
                         alt="Workouts">
                 </div>
             </div>
 
         </div>
     </section>
+@endsection
+
+@section('scripts')
+<script>
+    function showLoginPrompt() {
+        Swal.fire({
+            title: 'Login Required',
+            text: 'Please login to view your personalized daily plan.',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#0B6B7A',
+            cancelButtonColor: '#94A3B8',
+            confirmButtonText: 'Login Now',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '{{ route("login") }}';
+            }
+        });
+    }
+</script>
 @endsection

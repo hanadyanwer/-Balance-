@@ -1,4 +1,4 @@
-<nav class="bg-white sticky top-0 z-50 shadow-sm border-b border-slate-100">
+<nav class="bg-white fixed top-0 left-0 right-0 z-50 shadow-sm border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <div class="text-2xl font-bold text-primary tracking-tight">Balance+</div>
 
@@ -13,8 +13,18 @@
 
             <li class="relative group">
                 <div class="flex items-center gap-2 cursor-pointer py-2" id="userBtn">
-                    <img src="{{ asset('images/openclipart-vectors-avatar-1299805_1280.png') }}"
-                        class="w-8 h-8 rounded-full border border-slate-200" alt="User">
+                    @auth
+                        @if(Auth::user()->avatar)
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                class="w-8 h-8 rounded-full border border-slate-200 object-cover" alt="{{ Auth::user()->name }}">
+                        @else
+                            <img src="{{ asset('images/openclipart-vectors-avatar-1299805_1280.png') }}"
+                                class="w-8 h-8 rounded-full border border-slate-200" alt="User">
+                        @endif
+                    @else
+                        <img src="{{ asset('images/openclipart-vectors-avatar-1299805_1280.png') }}"
+                            class="w-8 h-8 rounded-full border border-slate-200" alt="User">
+                    @endauth
                     <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                 </div>
                 <div

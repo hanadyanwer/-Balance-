@@ -30,7 +30,7 @@
     <div class="absolute -bottom-[10%] -left-[5%] w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl"></div>
 
     <div class="max-w-[1100px] w-full bg-white rounded-[24px] shadow-[0_20px_60px_rgba(11,107,122,0.15)] overflow-hidden grid grid-cols-1 md:grid-cols-2 relative z-10">
-        
+
         <div class="bg-admin-gradient p-10 md:p-14 flex flex-col justify-center items-center text-center relative overflow-hidden">
             <div class="absolute -top-20 -right-20 w-60 h-60 bg-white/5 rounded-full"></div>
             <div class="absolute -bottom-16 -left-16 w-52 h-52 bg-white/5 rounded-full"></div>
@@ -74,12 +74,27 @@
                 </p>
             </div>
 
-            <form id="adminLoginForm" class="space-y-5">
+            <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-5">
+                @csrf
+
+                @if($errors->any())
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-4">
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-exclamation-circle text-red-500 mt-1"></i>
+                            <div class="text-sm text-red-800">
+                                @foreach($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-slate-700">Admin Email</label>
                     <div class="relative group">
                         <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors"></i>
-                        <input type="email" id="adminEmail" required placeholder="admin@balanceplus.com"
+                        <input type="email" name="email" required placeholder="admin@balanceplus.com" value="{{ old('email') }}"
                             class="w-full pl-12 pr-4 py-3.5 border-1.5 border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all bg-slate-50/50">
                     </div>
                 </div>
@@ -88,13 +103,9 @@
                     <label class="block text-sm font-semibold text-slate-700">Password</label>
                     <div class="relative group">
                         <i class="fa-solid fa-shield-halved absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors"></i>
-                        <input type="password" id="adminPassword" required placeholder="••••••••"
+                        <input type="password" name="password" required placeholder="••••••••"
                             class="w-full pl-12 pr-4 py-3.5 border-1.5 border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all bg-slate-50/50">
                     </div>
-                </div>
-
-                <div class="text-right">
-                    <a href="admaindash.html" class="text-sm font-semibold text-primary hover:text-primary-dark transition-colors">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="w-full py-4 bg-admin-gradient text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all uppercase tracking-wider text-sm">
@@ -109,27 +120,21 @@
                 </p>
             </div>
 
-            <div class="mt-8 text-center">
-                <a href="admaindash.html" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-primary transition-colors">
+            <div class="mt-6 text-center">
+                <p class="text-sm text-slate-500 mb-2">Not an admin?</p>
+                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-dark transition-colors">
+                    <i class="fas fa-user"></i>
+                    Login as User
+                </a>
+            </div>
+
+            <div class="mt-6 text-center">
+                <a href="{{ route('index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-primary transition-colors">
                     <i class="fa-solid fa-arrow-left text-xs"></i>
                     Back to Home
                 </a>
             </div>
         </div>
     </div>
-
-    <script>
-        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-            
-            if (email && password) {
-                // هان بتقدري تربطيها بصفحة الـ Dashboard تبعتك
-                alert('Redirecting to Admin Dashboard...');
-                window.location.href = 'admindash.html'; 
-            }
-        });
-    </script>
 </body>
 </html>

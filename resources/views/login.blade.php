@@ -75,6 +75,13 @@
                     <a href="{{ route('signup') }}" class="text-primary font-black hover:underline ml-1">Create
                         Account</a>
                 </p>
+
+                <div class="text-center mt-4 pt-4 border-t border-slate-100">
+                    <a href="{{ route('admin.login') }}" class="text-xs font-bold text-slate-400 hover:text-primary transition-colors">
+                        <i class="fa-solid fa-shield-halved mr-1"></i>
+                        Admin Login
+                    </a>
+                </div>
             </div>
         </div>
     </div>

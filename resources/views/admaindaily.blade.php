@@ -35,46 +35,51 @@
         </div>
 
         <nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-4">
-      <!-- <a href="#" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all"> -->
-                              <a href="admaindash.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
-
-        <i class="fa-solid fa-table-cells-large text-lg"></i> Dashboard
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+                <i class="fa-solid fa-table-cells-large text-lg"></i> Dashboard
             </a>
 
             <div class="py-4 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Manage Content</div>
 
             <div class="space-y-1">
-            <a href="adminrecipes.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
-
-                    <i class="fa-solid fa-dollar-sign w-5"></i> Manage Recipes
+                <a href="{{ route('admin.recipes.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+                    <i class="fa-solid fa-utensils w-5"></i> Manage Recipes
                 </a>
                 <div class="pl-12 space-y-2 pb-2">
-                    <a href="#" data-cat="breakfast" class="block text-sm text-sidebarText hover:text-primary transition-colors">Breakfast</a>
-                    <a href="#" data-cat="lunch" class="block text-sm text-sidebarText hover:text-primary transition-colors">Lunch</a>
-                    <a href="#" data-cat="dinner" class="block text-sm text-sidebarText hover:text-primary transition-colors">Dinner</a>
-                    <a href="#" data-cat="snack" class="block text-sm text-sidebarText hover:text-primary transition-colors">Snack</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'breakfast']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Breakfast</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'lunch']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Lunch</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'dinner']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Dinner</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'snack']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Snack</a>
                 </div>
             </div>
 
-            <a href="admainwork.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.workouts.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-bolt-lightning w-5"></i> Manage Workouts
             </a>
-              <a href="#" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.daily-plans.index') }}" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-calendar w-5"></i> Daily Wellness Plan
             </a>
-            <a href="admintips.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.tips.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-circle-question w-5"></i> Manage Health Tips
             </a>
-            <a href="admindrink.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.hydration.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-droplet w-5"></i> Manage Drink Water
             </a>
-         
+            <a href="{{ route('admin.stories.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+                <i class="fa-solid fa-quote-left w-5"></i> Success Stories
+                @if(isset($pendingStoriesCount) && $pendingStoriesCount > 0)
+                <span class="ml-auto px-2 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full animate-pulse">{{ $pendingStoriesCount }}</span>
+                @endif
+            </a>
         </nav>
 
         <div class="p-6 border-t border-slate-100">
-            <a href="#" class="flex items-center gap-3 text-red-500 font-bold text-sm hover:translate-x-1 transition-transform">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
-            </a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="flex items-center gap-3 text-red-500 font-bold text-sm hover:translate-x-1 transition-transform">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+                </button>
+            </form>
         </div>
     </aside>
  <div class="flex-1 flex flex-col min-w-0">
@@ -84,15 +89,7 @@
                 <input type="text" placeholder="Search..." class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all">
             </div>
 
-             <div class="flex items-center gap-4">
-                <button class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center relative text-slate-500 hover:bg-slate-50 transition-all">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">3</span>
-                </button>
-                <button class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-all">
-                    <i class="fa-regular fa-user"></i>
-                </button>
-            </div>
+             @include('admin.partials.notifications')
         </header>
 
         <main class="flex-1 overflow-y-auto p-12">
@@ -101,7 +98,7 @@
                     <h2 class="text-3xl font-black text-slate-800 tracking-tight">Configure 6-Day Cycles</h2>
                     <p class="text-slate-400 text-xs font-medium mt-2 italic">Assign meals and health tips for each daily sequence.</p>
                 </div>
-               
+
             </div>
 
             <div class="max-w-6xl mx-auto bg-white rounded-[3rem] shadow-sm border border-slate-100 overflow-hidden">
@@ -132,29 +129,29 @@
 <script>
     const allRecipes = {
         breakfast: [
-            { name: "Blueberry Oatmeal", nutrients: "Prot: 10g | Carbs: 45g | Fats: 7g", cals: "320 kcal", img: "../images/altumcode-BT-Cx1n1LXA-unsplash.jpg" },
-            { name: "Spinach Omelet", nutrients: "Prot: 18g | Carbs: 15g | Fats: 14g", cals: "280 kcal", img: "../images/alimentos-fotogenicos-I7-KczdRauI-unsplash.jpg" },
-            { name: "Yogurt Parfait", nutrients: "Prot: 15g | Carbs: 30g | Fats: 5g", cals: "250 kcal", img: "../images/alondra-lucia-VnXAdRS6Yt4-unsplash.jpg" },
-            { name: "Avocado Toast", nutrients: "Prot: 8g | Carbs: 35g | Fats: 18g", cals: "310 kcal", img: "../images/imad-786-w1NiWDrp68M-unsplash.jpg" },
-            { name: "Banana Pancakes", nutrients: "Prot: 12g | Carbs: 40g | Fats: 10g", cals: "290 kcal", img: "../images/eiliv-aceron-exyTIrXyqm0-unsplash.jpg" }
+            { name: "Blueberry Oatmeal", nutrients: "Prot: 10g | Carbs: 45g | Fats: 7g", cals: "320 kcal", img: "/images/1776413392_altumcode-BT-Cx1n1LXA-unsplash.jpg" },
+            { name: "Spinach Omelet", nutrients: "Prot: 18g | Carbs: 15g | Fats: 14g", cals: "280 kcal", img: "/images/1776411470_alimentos-fotogenicos-I7-KczdRauI-unsplash.jpg" },
+            { name: "Yogurt Parfait", nutrients: "Prot: 15g | Carbs: 30g | Fats: 5g", cals: "250 kcal", img: "/images/1776413374_alondra-lucia-VnXAdRS6Yt4-unsplash.jpg" },
+            { name: "Avocado Toast", nutrients: "Prot: 8g | Carbs: 35g | Fats: 18g", cals: "310 kcal", img: "/images/1776413506_imad-786-w1NiWDrp68M-unsplash.jpg" },
+            { name: "Banana Pancakes", nutrients: "Prot: 12g | Carbs: 40g | Fats: 10g", cals: "290 kcal", img: "/images/1776494376_eiliv-aceron-exyTIrXyqm0-unsplash.jpg" }
         ],
         lunch: [
-            { name: "Grilled Chicken Bowl", nutrients: "Prot: 40g | Carbs: 40g | Fats: 12g", cals: "450 kcal", img: "../images/sumit-bhatia-g7WrssBb1Ak-unsplash.jpg" },
-            { name: "Baked Salmon", nutrients: "Prot: 35g | Carbs: 5g | Fats: 22g", cals: "400 kcal", img: "../images/thembi-johnson-HIFIN24HB7k-unsplash.jpg" },
-            { name: "Mediterranean Salad", nutrients: "Prot: 12g | Carbs: 45g | Fats: 9g", cals: "320 kcal", img: "../images/declan-sun-TsPlj-rqU9g-unsplash.jpg" },
-            { name: "Lentil Soup", nutrients: "Prot: 18g | Carbs: 40g | Fats: 4g", cals: "280 kcal", img: "../images/elena-leya-_jyB1ndDFQE-unsplash.jpg" }
+            { name: "Grilled Chicken Bowl", nutrients: "Prot: 40g | Carbs: 40g | Fats: 12g", cals: "450 kcal", img: "/images/1776495053_sumit-bhatia-g7WrssBb1Ak-unsplash.jpg" },
+            { name: "Baked Salmon", nutrients: "Prot: 35g | Carbs: 5g | Fats: 22g", cals: "400 kcal", img: "/images/1776495182_thembi-johnson-HIFIN24HB7k-unsplash.jpg" },
+            { name: "Mediterranean Salad", nutrients: "Prot: 12g | Carbs: 45g | Fats: 9g", cals: "320 kcal", img: "/images/1776495286_declan-sun-TsPlj-rqU9g-unsplash.jpg" },
+            { name: "Lentil Soup", nutrients: "Prot: 18g | Carbs: 40g | Fats: 4g", cals: "280 kcal", img: "/images/1776495412_elena-leya-_jyB1ndDFQE-unsplash.jpg" }
         ],
         dinner: [
-            { name: "Tomato Basil Pasta", nutrients: "Prot: 12g | Carbs: 60g | Fats: 8g", cals: "350 kcal", img: "../images/karolina-kolodziejczak-Qf-gqJSWFYQ-unsplash.jpg" },
-            { name: "Stuffed Potato", nutrients: "Prot: 10g | Carbs: 55g | Fats: 2g", cals: "300 kcal", img: "../images/david-todd-mccarty-IzJTWRzipGc-unsplash.jpg" },
-            { name: "Shrimp 'Rice'", nutrients: "Prot: 25g | Carbs: 10g | Fats: 6g", cals: "250 kcal", img: "../images/diego-arenas-de-rodrigo-kPAhQN-vxYg-unsplash.jpg" },
-            { name: "Tofu Buddha Bowl", nutrients: "Prot: 20g | Carbs: 12g | Fats: 15g", cals: "270 kcal", img: "../images/pexels-cottonbro-3297367.jpg" }
+            { name: "Tomato Basil Pasta", nutrients: "Prot: 12g | Carbs: 60g | Fats: 8g", cals: "350 kcal", img: "/images/1776495495_karolina-kolodziejczak-Qf-gqJSWFYQ-unsplash.jpg" },
+            { name: "Stuffed Potato", nutrients: "Prot: 10g | Carbs: 55g | Fats: 2g", cals: "300 kcal", img: "/images/1776495594_david-todd-mccarty-IzJTWRzipGc-unsplash.jpg" },
+            { name: "Shrimp 'Rice'", nutrients: "Prot: 25g | Carbs: 10g | Fats: 6g", cals: "250 kcal", img: "/images/1776495698_diego-arenas-de-rodrigo-kPAhQN-vxYg-unsplash.jpg" },
+            { name: "Tofu Buddha Bowl", nutrients: "Prot: 20g | Carbs: 12g | Fats: 15g", cals: "270 kcal", img: "/images/1776495833_pexels-cottonbro-3297367.jpg" }
         ],
         snack: [
-            { name: "Apple & Nut Butter", nutrients: "Prot: 4g | Carbs: 20g | Fats: 8g", cals: "180 kcal", img: "../images/cgdsro-food-3126525_1280.jpg" },
-            { name: "Mixed Nuts", nutrients: "Prot: 5g | Carbs: 6g | Fats: 14g", cals: "160 kcal", img: "../images/maksim-shutov-pUa1On18Jno-unsplash.jpg" },
-            { name: "Carrots & Hummus", nutrients: "Prot: 3g | Carbs: 15g | Fats: 6g", cals: "120 kcal", img: "../images/corey-watson-ArGWd4sK6RM-unsplash.jpg" },
-            { name: "Dark Chocolate", nutrients: "Prot: 2g | Carbs: 12g | Fats: 11g", cals: "150 kcal", img: "../images/tetiana-bykovets-YemxYB75xvI-unsplash.jpg" }
+            { name: "Apple & Nut Butter", nutrients: "Prot: 4g | Carbs: 20g | Fats: 8g", cals: "180 kcal", img: "/images/1776495923_cgdsro-food-3126525_1280.jpg" },
+            { name: "Mixed Nuts", nutrients: "Prot: 5g | Carbs: 6g | Fats: 14g", cals: "160 kcal", img: "/images/1776496011_maksim-shutov-pUa1On18Jno-unsplash.jpg" },
+            { name: "Carrots & Hummus", nutrients: "Prot: 3g | Carbs: 15g | Fats: 6g", cals: "120 kcal", img: "/images/1776496083_corey-watson-ArGWd4sK6RM-unsplash.jpg" },
+            { name: "Dark Chocolate", nutrients: "Prot: 2g | Carbs: 12g | Fats: 11g", cals: "150 kcal", img: "/images/1776496243_tetiana-bykovets-YemxYB75xvI-unsplash.jpg" }
         ]
     };
 
@@ -171,7 +168,7 @@
     function renderPlans() {
         const dailyPlansBody = document.getElementById('dailyPlansBody');
         if (!dailyPlansBody) return;
-        dailyPlansBody.innerHTML = ''; 
+        dailyPlansBody.innerHTML = '';
 
         for (let i = 0; i < 6; i++) {
             const b = allRecipes.breakfast[i % allRecipes.breakfast.length];
@@ -346,7 +343,7 @@ window.addNewPlan = function() {
         preConfirm: () => {
             const name = document.getElementById('add-plan-name').value;
             if (!name) return Swal.showValidationMessage('Please enter a title');
-            
+
             const bS = document.getElementById('add-plan-b');
             const lS = document.getElementById('add-plan-l');
             const dS = document.getElementById('add-plan-d');
@@ -396,7 +393,7 @@ window.addNewPlan = function() {
                         </div>
                     </td>
                 </tr>`;
-            
+
             tbody.innerHTML += newRow;
             Swal.fire({ title: 'Plan Created!', icon: 'success', confirmButtonColor: '#0B6B7A' });
         }

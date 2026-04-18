@@ -25,16 +25,16 @@
             <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Follow Us</h4>
             <div class="flex gap-4">
                 <a href="#"
-                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">f</a>
-                <a href="#"
-                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">in</a>
+                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
                 <a href="#"
                     class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="2" width="20" height="20" rx="5" />
-                        <circle cx="12" cy="12" r="4" />
-                        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-                    </svg>
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#"
+                    class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-all">
+                    <i class="fab fa-instagram"></i>
                 </a>
             </div>
         </div>

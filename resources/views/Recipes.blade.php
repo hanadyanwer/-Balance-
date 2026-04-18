@@ -15,6 +15,12 @@
         color: white !important;
         box-shadow: 0 4px 12px rgba(11, 107, 122, 0.2);
     }
+
+    .swal-no-padding .swal2-html-container {
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
@@ -51,23 +57,35 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="recipesGrid">
 
+            @foreach($recipes as $recipe)
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="breakfast"
-                data-ingredients="1 cup Rolled Oats, 1 cup Almond Milk, 1 tbsp Chia Seeds, آ½ cup Fresh Blueberries, 1 tsp Honey"
-                data-nutrition="Cals: 320 | Protein: 10g | Carbs: 45g | Fats: 7g">
+                data-category="{{ $recipe->meal_type }}"
+                data-name="{{ $recipe->name }}"
+                data-image="{{ asset($recipe->image ?? 'images/healthy.jfif') }}"
+                data-description="{{ $recipe->description ?? 'Delicious and healthy recipe.' }}"
+                data-ingredients="{{ $recipe->ingredients ?? 'No ingredients listed' }}"
+                data-instructions="{{ $recipe->instructions ?? 'Follow preparation steps.' }}"
+                data-calories="{{ $recipe->calories ?? 'N/A' }}"
+                data-protein="{{ $recipe->protein ?? 'N/A' }}"
+                data-carbs="{{ $recipe->carbs ?? 'N/A' }}"
+                data-fats="{{ $recipe->fats ?? 'N/A' }}"
+                data-prep-time="{{ $recipe->prep_time ?? 'N/A' }}">
                 <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/altumcode-BT-Cx1n1LXA-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Breakfast</span>
+                    @if($recipe->image)
+                        <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->name }}"
+                            class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
+                    @else
+                        <div class="w-full h-full bg-gradient-to-br from-primary/10 to-primary/30 flex items-center justify-center">
+                            <i class="fas fa-utensils text-5xl text-primary/40"></i>
+                        </div>
+                    @endif
+                    <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">{{ $recipe->meal_type }}</span>
                 </div>
-                <h3 class="text-xl font-bold mb-2">Blueberry Oatmeal</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic text-balance text-description">Creamy oats
-                    topped with fresh antioxidants.</p>
+                <h3 class="text-xl font-bold mb-2">{{ $recipe->name }}</h3>
+                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic text-balance text-description">{{ $recipe->description ?? 'Delicious and healthy recipe.' }}</p>
                 <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 10m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 320
-                        kcal</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> {{ $recipe->prep_time ?? 'N/A' }}m</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> {{ $recipe->calories ?? 'N/A' }} kcal</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <button
@@ -78,457 +96,219 @@
                             class="fa-solid fa-heart"></i></button>
                 </div>
             </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="breakfast"
-                data-ingredients="2 Large Eggs, 1 cup Fresh Spinach, 20g Feta Cheese, 1 slice Whole-wheat toast, Black pepper"
-                data-nutrition="Cals: 280 | Protein: 18g | Carbs: 15g | Fats: 14g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/alimentos-fotogenicos-I7-KczdRauI-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Breakfast</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Spinach Omelet</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Protein-packed omelet with fresh spinach.
-                </p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 15m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 280 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="breakfast"
-                data-ingredients="200g Greek Yogurt, 30g Low-sugar Granola, 1 tsp Honey, 5 Fresh Strawberries"
-                data-nutrition="Cals: 250 | Protein: 15g | Carbs: 30g | Fats: 5g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/alondra-lucia-VnXAdRS6Yt4-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Breakfast</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Yogurt Parfait</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Layers of creamy yogurt and crunchy
-                    granola.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 5m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 250 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="breakfast"
-                data-ingredients="1 slice Sourdough Bread, آ½ Ripe Avocado, Chili Flakes, 1 tsp Lemon juice, Sea salt"
-                data-nutrition="Cals: 310 | Protein: 8g | Carbs: 35g | Fats: 18g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/imad-786-w1NiWDrp68M-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Breakfast</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Avocado Toast</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Classic smashed avocado on sourdough
-                    bread.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 8m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 310 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="breakfast"
-                data-ingredients="1 Ripe Banana, 2 Eggs, آ½ tsp Cinnamon, 1 tbsp Maple Syrup, Coconut Oil for cooking"
-                data-nutrition="Cals: 290 | Protein: 12g | Carbs: 40g | Fats: 10g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/eiliv-aceron-exyTIrXyqm0-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Breakfast</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Banana Pancakes</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Fluffy pancakes with only natural sugars.
-                </p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 20m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 290 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="lunch"
-                data-ingredients="150g Chicken Breast, آ½ cup Cooked Quinoa, 1 cup Steamed Broccoli, 1 clove Garlic, Lemon Tahini dressing"
-                data-nutrition="Cals: 450 | Protein: 40g | Carbs: 40g | Fats: 12g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/sumit-bhatia-g7WrssBb1Ak-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Lunch</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Grilled Chicken Bowl</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Healthy grain bowl with lean protein.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 30m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 450 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="lunch"
-                data-ingredients="120g Salmon Fillet, 1 bunch Asparagus, 1 slice Lemon, 1 tbsp Olive Oil, Dried Dill"
-                data-nutrition="Cals: 400 | Protein: 35g | Carbs: 5g | Fats: 22g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/thembi-johnson-HIFIN24HB7k-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Lunch</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Baked Salmon</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Omega-3 rich salmon with roasted
-                    asparagus.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 25m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 400 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="lunch"
-                data-ingredients="آ½ cup Chickpeas, 1 Cucumber, 1 Tomato, Fresh Parsley, Olive oil & Vinegar"
-                data-nutrition="Cals: 320 | Protein: 12g | Carbs: 45g | Fats: 9g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/declan-sun-TsPlj-rqU9g-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Lunch</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Mediterranean Salad</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Refreshing salad with chickpeas and
-                    herbs.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 15m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 320 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="lunch"
-                data-ingredients="آ½ cup Brown Lentils, 1 Carrot, 1 stalk Celery, Cumin, Turmeric, Vegetable broth"
-                data-nutrition="Cals: 280 | Protein: 18g | Carbs: 40g | Fats: 4g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/elena-leya-_jyB1ndDFQE-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Lunch</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Lentil Soup</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Hearty and warming vegetable lentil soup.
-                </p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 40m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 280 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="dinner"
-                data-ingredients="80g Whole-wheat pasta, 1 cup Cherry Tomatoes, Fresh Basil leaves, 1 tsp Olive oil, Parmesan"
-                data-nutrition="Cals: 350 | Protein: 12g | Carbs: 60g | Fats: 8g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/karolina-kolodziejczak-Qf-gqJSWFYQ-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Dinner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Tomato Basil Pasta</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Simple Italian pasta with fresh
-                    ingredients.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 15m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 350 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="dinner"
-                data-ingredients="1 Medium Sweet Potato, آ½ cup Black Beans, آ¼ cup Corn, 1 tsp Lime juice, Fresh Cilantro"
-                data-nutrition="Cals: 300 | Protein: 10g | Carbs: 55g | Fats: 2g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/david-todd-mccarty-IzJTWRzipGc-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Dinner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Stuffed Sweet Potato</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Baked potato filled with black beans and
-                    corn.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 45m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 300 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="dinner"
-                data-ingredients="150g Shrimp, 2 cups Cauliflower rice, آ¼ cup Peas, آ¼ cup Diced Carrots, Soy sauce (Low sodium)"
-                data-nutrition="Cals: 250 | Protein: 25g | Carbs: 10g | Fats: 6g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/diego-arenas-de-rodrigo-kPAhQN-vxYg-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Dinner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Shrimp "Rice"</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Low-carb dinner with cauliflower rice.
-                </p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 20m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 250 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="dinner"
-                data-ingredients="200g Firm Tofu, 2 cups Mixed Greens, 1 tbsp Sesame seeds, آ½ Avocado, Ginger dressing"
-                data-nutrition="Cals: 270 | Protein: 20g | Carbs: 12g | Fats: 15g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/pexels-cottonbro-3297367.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Dinner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Tofu Buddha Bowl</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Plant-based bowl with crispy tofu cubes.
-                </p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 25m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 270 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="snack" data-ingredients="1 Medium Apple, 1 tbsp Natural Peanut Butter, Dash of Cinnamon"
-                data-nutrition="Cals: 180 | Protein: 4g | Carbs: 20g | Fats: 8g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/cgdsro-food-3126525_1280.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Snack</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Apple & Nut Butter</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Simple snack for quick energy boost.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 3m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 180 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="snack" data-ingredients="10 Raw Almonds, 3 Walnuts, 5 Cashews (Unsalted)"
-                data-nutrition="Cals: 160 | Protein: 5g | Carbs: 6g | Fats: 14g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/maksim-shutov-pUa1On18Jno-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Snack</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Mixed Nuts</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Handful of healthy fats and protein.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 1m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 160 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="snack"
-                data-ingredients="1 cup Baby Carrots, 2 tbsp Traditional Hummus, Extra virgin olive oil"
-                data-nutrition="Cals: 120 | Protein: 3g | Carbs: 15g | Fats: 6g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/corey-watson-ArGWd4sK6RM-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Snack</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Carrots & Hummus</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Crunchy carrots with smooth chickpea dip.
-                </p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 2m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 120 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="snack" data-ingredients="آ½ cup Low-fat Cottage Cheese, آ½ cup Fresh Pineapple chunks"
-                data-nutrition="Cals: 140 | Protein: 12g | Carbs: 10g | Fats: 2g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/andrew-molyneaux-X00aKdald68-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Snack</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Pineapple Cottage Cheese</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Sweet and salty high-protein snack.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 4m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 140 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2"
-                data-category="snack" data-ingredients="2 squares (20g) Dark Chocolate (85% Cocoa), Pinch of Sea Salt"
-                data-nutrition="Cals: 150 | Protein: 2g | Carbs: 12g | Fats: 11g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5">
-                    <img src="../images/tetiana-bykovets-YemxYB75xvI-unsplash.jpg"
-                        class="w-full h-full object-cover group-hover:scale-110 duration-700 transition">
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase">Snack</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Dark Chocolate</h3>
-                <p class="text-sm text-slate-500 mb-6 italic text-description">Two squares of 85% dark chocolate.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span><i class="fa-regular fa-clock text-primary mr-1"></i> 1m</span>
-                    <span><i class="fa-solid fa-fire text-primary mr-1"></i> 150 kcal</span>
-                </div>
-                <div class="flex gap-3">
-                    <button
-                        class="view-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Recipe</button>
-                    <button
-                        class="heart w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 transition-all"><i
-                            class="fa-solid fa-heart"></i></button>
-                </div>
-            </div>
+            @endforeach
 
         </div>
     </section>
+@endsection
+
+@section('scripts')
+<script>
+    // Load favorites from localStorage
+    const savedFavorites = JSON.parse(localStorage.getItem('recipeFavorites') || '[]');
+
+    // Apply saved favorites
+    document.querySelectorAll('.card').forEach((card) => {
+        const recipeName = card.querySelector('h3').textContent;
+        if (savedFavorites.includes(recipeName)) {
+            card.querySelector('.heart').classList.add('active-fav');
+        }
+    });
+
+    // Update filter functionality to work with dynamic data
+    document.querySelectorAll('.filter').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.dataset.filter;
+
+            // Handle favorites filter separately
+            if (filter === 'favorites') {
+                const favCards = document.querySelectorAll('.card .heart.active-fav');
+
+                if (favCards.length === 0) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No Favorites Yet',
+                        text: 'Add recipes to favorites by clicking the heart icon!',
+                        confirmButtonColor: '#0B6B7A'
+                    });
+                    return;
+                }
+
+                document.querySelectorAll('.card').forEach(card => {
+                    const heartBtn = card.querySelector('.heart');
+                    if (heartBtn.classList.contains('active-fav')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Update active button (keep favorites button highlighted)
+                document.querySelectorAll('.filter').forEach(b => {
+                    if (b.dataset.filter !== 'favorites') {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('text-slate-500');
+                    }
+                });
+                this.style.backgroundColor = '#fef2f2';
+                this.style.borderColor = '#fee2e2';
+                return;
+            }
+
+            // Regular filters
+            document.querySelectorAll('.filter').forEach(b => {
+                b.classList.remove('active', 'bg-primary', 'text-white');
+                b.classList.add('text-slate-500');
+                if (b.dataset.filter === 'favorites') {
+                    b.style.backgroundColor = '';
+                    b.style.borderColor = '';
+                }
+            });
+            this.classList.add('active', 'bg-primary', 'text-white');
+            this.classList.remove('text-slate-500');
+
+            // Filter cards
+            document.querySelectorAll('.card').forEach(card => {
+                const category = card.dataset.category;
+                if (filter === 'all' || filter === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // View recipe button functionality
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.card');
+            const recipeName = card.dataset.name;
+            const recipeImage = card.dataset.image;
+            const recipeDescription = card.dataset.description;
+            const recipeIngredients = card.dataset.ingredients;
+            const recipeInstructions = card.dataset.instructions;
+            const recipeCalories = card.dataset.calories;
+            const recipeProtein = card.dataset.protein;
+            const recipeCarbs = card.dataset.carbs;
+            const recipeFats = card.dataset.fats;
+            const recipePrepTime = card.dataset.prepTime;
+
+            Swal.fire({
+                title: '',
+                html: `
+                    <div style="border: 3px solid #e2e8f0; border-radius: 1rem; background: white; overflow: hidden;">
+                        <!-- Recipe Header with Image -->
+                        <div style="position: relative; height: 140px; overflow: hidden;">
+                            <img src="${recipeImage}" alt="${recipeName}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); padding: 0.75rem 1rem;">
+                                <h2 style="color: white; font-size: 1.2rem; font-weight: 800; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">${recipeName}</h2>
+                            </div>
+                        </div>
+
+                        <div style="padding: 1rem;">
+                            <!-- Description -->
+                            <p style="color: #64748b; font-size: 0.75rem; line-height: 1.4; text-align: center; margin: 0 0 0.75rem 0; padding-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0;">${recipeDescription}</p>
+
+                            <!-- Ingredients -->
+                            <div style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.65rem; padding: 0.65rem; margin-bottom: 0.65rem;">
+                                <h3 style="color: #0B6B7A; font-size: 0.8rem; font-weight: 700; margin: 0 0 0.4rem 0; display: flex; align-items: center; gap: 0.3rem;">
+                                    <i class="fa-solid fa-list-check" style="font-size: 0.75rem;"></i> Ingredients
+                                </h3>
+                                <ul style="color: #475569; font-size: 0.7rem; line-height: 1.5; margin: 0; padding-left: 1rem; list-style-type: disc;">
+                                    ${recipeIngredients.split(',').map(item => `<li style="margin-bottom: 0.2rem;">${item.trim()}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                            <!-- Prep Time -->
+                            <div style="background: #f1f5f9; border: 2px solid #cbd5e1; border-radius: 0.65rem; padding: 0.5rem; text-align: center; margin-bottom: 0.65rem;">
+                                <i class="fa-solid fa-clock" style="color: #0B6B7A; font-size: 0.85rem;"></i>
+                                <span style="color: #475569; font-weight: 600; margin-left: 0.3rem; font-size: 0.7rem;">${recipePrepTime} min</span>
+                            </div>
+
+                            <!-- Nutrition Facts -->
+                            <div style="background: #e2e8f0; border: 2px solid #cbd5e1; border-radius: 0.65rem; padding: 0.6rem; margin-top: 0.65rem;">
+                                <h3 style="color: #334155; font-size: 0.8rem; font-weight: 700; margin: 0 0 0.4rem 0; text-align: center;">
+                                    <i class="fa-solid fa-chart-pie" style="color: #0B6B7A; font-size: 0.75rem;"></i> Nutrition Facts
+                                </h3>
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem;">
+                                    <div style="background: white; padding: 0.5rem; border-radius: 0.5rem; text-align: center; border: 2px solid #cbd5e1;">
+                                        <i class="fa-solid fa-fire" style="color: #f97316; font-size: 1rem;"></i>
+                                        <p style="font-size: 0.6rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0.15rem 0;">Cal</p>
+                                        <p style="font-weight: 900; color: #1e293b; font-size: 0.85rem; margin: 0;">${recipeCalories}</p>
+                                    </div>
+                                    <div style="background: white; padding: 0.5rem; border-radius: 0.5rem; text-align: center; border: 2px solid #cbd5e1;">
+                                        <i class="fa-solid fa-drumstick-bite" style="color: #dc2626; font-size: 1rem;"></i>
+                                        <p style="font-size: 0.6rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0.15rem 0;">Pro</p>
+                                        <p style="font-weight: 900; color: #1e293b; font-size: 0.85rem; margin: 0;">${recipeProtein}g</p>
+                                    </div>
+                                    <div style="background: white; padding: 0.5rem; border-radius: 0.5rem; text-align: center; border: 2px solid #cbd5e1;">
+                                        <i class="fa-solid fa-wheat-awn" style="color: #ca8a04; font-size: 1rem;"></i>
+                                        <p style="font-size: 0.6rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0.15rem 0;">Carbs</p>
+                                        <p style="font-weight: 900; color: #1e293b; font-size: 0.85rem; margin: 0;">${recipeCarbs}g</p>
+                                    </div>
+                                    <div style="background: white; padding: 0.5rem; border-radius: 0.5rem; text-align: center; border: 2px solid #cbd5e1;">
+                                        <i class="fa-solid fa-droplet" style="color: #eab308; font-size: 1rem;"></i>
+                                        <p style="font-size: 0.6rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0.15rem 0;">Fats</p>
+                                        <p style="font-weight: 900; color: #1e293b; font-size: 0.85rem; margin: 0;">${recipeFats}g</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Back to Menu Button -->
+                            <div style="text-align: center; margin-top: 0.75rem;">
+                                <button onclick="Swal.close()" style="background: #0B6B7A; color: white; padding: 0.55rem 1.75rem; border-radius: 0.6rem; border: none; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 4px rgba(11, 107, 122, 0.2);" onmouseover="this.style.background='#094d56'" onmouseout="this.style.background='#0B6B7A'">
+                                    <i class="fa-solid fa-arrow-left" style="margin-right: 0.35rem;"></i>Back to Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                width: 580,
+                showConfirmButton: false,
+                customClass: {
+                    popup: 'swal-wide',
+                    htmlContainer: 'swal-no-padding'
+                }
+            });
+        });
+    });
+
+    // Favorite button functionality
+    document.querySelectorAll('.heart').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('active-fav');
+
+            const card = this.closest('.card');
+            const recipeName = card.querySelector('h3').textContent;
+            let favorites = JSON.parse(localStorage.getItem('recipeFavorites') || '[]');
+
+            if (this.classList.contains('active-fav')) {
+                if (!favorites.includes(recipeName)) {
+                    favorites.push(recipeName);
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Added to Favorites!',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            } else {
+                favorites = favorites.filter(name => name !== recipeName);
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Removed from Favorites',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+
+            localStorage.setItem('recipeFavorites', JSON.stringify(favorites));
+        });
+    });
+</script>
 @endsection

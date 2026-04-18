@@ -9,6 +9,62 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
+    /**
+     * Show the profile setup page (للمستخدمين الجدد)
+     */
+    public function showSetup()
+    {
+        $user = Auth::user();
+
+        // السماح بالوصول للصفحة حتى لو كان الملف مكتمل (للتعديل)
+        return view('profile.setup', compact('user'));
+    }
+
+    /**
+     * Save profile setup data (أول مرة)
+     */
+    public function saveSetup(Request $request)
+    {
+        $validated = $request->validate([
+            'weight' => 'required|numeric|min:30|max:300',
+            'height' => 'required|numeric|min:100|max:250',
+            'age' => 'required|integer|min:13|max:100',
+            'gender' => 'required|in:male,female',
+            'health_goal' => 'required|in:lose_weight,gain_weight,build_muscle,maintain',
+        ], [
+            'weight.required' => 'Weight is required',
+            'weight.min' => 'Weight must be at least 30 kg',
+            'weight.max' => 'Weight must be less than 300 kg',
+            'height.required' => 'Height is required',
+            'height.min' => 'Height must be at least 100 cm',
+            'height.max' => 'Height must be less than 250 cm',
+            'age.required' => 'Age is required',
+            'age.min' => 'Age must be at least 13 years',
+            'age.max' => 'Age must be less than 100 years',
+            'gender.required' => 'Gender is required',
+            'health_goal.required' => 'Health goal is required',
+        ]);
+
+        $user = Auth::user();
+
+        // حساب BMI
+        $heightInMeters = $validated['height'] / 100;
+        $bmi = round($validated['weight'] / ($heightInMeters * $heightInMeters), 2);
+
+        // تحديث بيانات المستخدم
+        $user->update([
+            'weight' => $validated['weight'],
+            'height' => $validated['height'],
+            'age' => $validated['age'],
+            'gender' => $validated['gender'],
+            'health_goal' => $validated['health_goal'],
+            'bmi' => $bmi,
+            'profile_completed' => true,
+        ]);
+
+        return redirect()->route('home')->with('profile_success', 'Your profile has been saved successfully! 🎉');
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -28,7 +84,7 @@ class ProfileController extends Controller
             'gender' => 'nullable|in:male,female',
             'weight' => 'nullable|numeric|min:0|max:500',
             'height' => 'nullable|numeric|min:0|max:300',
-            'health_goal' => 'nullable|string|in:lose,gain,maintain',
+            'health_goal' => 'nullable|string|in:lose_weight,gain_weight,build_muscle,maintain',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'cover_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -42,6 +98,9 @@ class ProfileController extends Controller
                     $request->dob_day
                 );
                 $validated['date_of_birth'] = $date->format('Y-m-d');
+
+                // حساب العمر
+                $validated['age'] = \Carbon\Carbon::parse($validated['date_of_birth'])->age;
             } catch (\Exception $e) {
                 // Invalid date, skip
             }
@@ -49,6 +108,18 @@ class ProfileController extends Controller
 
         // Remove individual date fields
         unset($validated['dob_month'], $validated['dob_day'], $validated['dob_year']);
+
+        // حساب BMI إذا تم تحديث الوزن أو الطول
+        if (isset($validated['weight']) && isset($validated['height']) && $validated['height'] > 0) {
+            $heightInMeters = $validated['height'] / 100;
+            $validated['bmi'] = round($validated['weight'] / ($heightInMeters * $heightInMeters), 2);
+        } elseif (isset($validated['weight']) && $user->height > 0) {
+            $heightInMeters = $user->height / 100;
+            $validated['bmi'] = round($validated['weight'] / ($heightInMeters * $heightInMeters), 2);
+        } elseif (isset($validated['height']) && $user->weight > 0 && $validated['height'] > 0) {
+            $heightInMeters = $validated['height'] / 100;
+            $validated['bmi'] = round($user->weight / ($heightInMeters * $heightInMeters), 2);
+        }
 
         // Handle avatar upload
         if ($request->hasFile('avatar')) {
@@ -69,6 +140,15 @@ class ProfileController extends Controller
         }
 
         $user->update($validated);
+
+        // Check if it's an AJAX request
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully!',
+                'user' => $user
+            ]);
+        }
 
         return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
