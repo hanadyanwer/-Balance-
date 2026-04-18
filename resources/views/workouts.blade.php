@@ -46,279 +46,225 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="workoutsGrid">
 
+            @foreach($workouts as $workout)
             <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="intermediate"
-                data-desc="High-intensity interval training designed to spike your heart rate and boost morning metabolism."
-                data-video="https://www.youtube.com/watch?v=ml6cT4AZdqI">
-                <div
-                    class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-orange-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًںڈƒ</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Intermediate</span>
+                data-category="{{ $workout->difficulty }}"
+                data-name="{{ $workout->name }}"
+                data-desc="{{ $workout->description ?? 'Effective training program.' }}"
+                data-duration="{{ $workout->duration ?? 'N/A' }}"
+                data-calories="{{ $workout->calories_burned ?? 'N/A' }}"
+                data-equipment="{{ $workout->equipment ?? 'No equipment needed' }}"
+                data-instructions="{{ $workout->instructions ?? 'Follow along with the workout routine.' }}"
+                data-video="{{ $workout->video_url ?? '' }}">
+                <div class="relative h-48 overflow-hidden rounded-3xl mb-5 flex items-center justify-center group"
+                    style="background: linear-gradient(135deg, {{ $workout->difficulty == 'beginner' ? '#e0f2fe, #bae6fd' : ($workout->difficulty == 'intermediate' ? '#fed7aa, #fdba74' : '#fecaca, #fca5a5') }})">
+                    <span class="text-6xl group-hover:scale-110 transition duration-700">
+                        @if($workout->type == 'cardio')
+                            🏃
+                        @elseif($workout->type == 'strength')
+                            🏋️
+                        @elseif($workout->type == 'flexibility')
+                            🧘
+                        @elseif($workout->type == 'hiit')
+                            🔥
+                        @else
+                            💪
+                        @endif
+                    </span>
+                    @if($workout->video_url)
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                        <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-play text-primary text-2xl ml-1"></i>
+                        </div>
+                    </div>
+                    @endif
+                    <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm z-10">{{ $workout->difficulty }}</span>
                 </div>
-                <h3 class="text-xl font-bold mb-2">Morning HIIT</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Intense bursts of activity followed by short
-                    rest periods.</p>
+                <h3 class="text-xl font-bold mb-2">{{ $workout->name }}</h3>
+                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">{{ $workout->description ?? 'Effective training program.' }}</p>
                 <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 30m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 320
-                        kcal</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> {{ $workout->duration ?? 'N/A' }}m</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> {{ $workout->calories_burned ?? 'N/A' }} kcal</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
+                    <button class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View Plan</button>
+                    <button class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i class="fa-solid fa-heart text-xl"></i></button>
                 </div>
             </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="beginner"
-                data-desc="A gentle flow of yoga poses aimed at improving flexibility, balance, and mental clarity."
-                data-video="https://www.youtube.com/watch?v=v7AYKMP6rOE">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-blue-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں§ک</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Beginner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Yoga Flow</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Connect your breath with movement in this
-                    basic flow.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 45m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 180
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="advanced"
-                data-desc="Advanced resistance training focusing on compound movements to build serious muscle mass."
-                data-video="https://www.youtube.com/watch?v=q6_9v9I3oYI">
-                <div
-                    class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-slate-100 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًںڈ‹ï¸ڈ</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Strength Power</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Master the art of lifting with focused
-                    strength routines.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 60m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 480
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="intermediate"
-                data-desc="Focus on your stability and abdominal strength with this dedicated core workout."
-                data-video="https://www.youtube.com/watch?v=dJlFmxiL11s">
-                <div
-                    class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-green-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں¤¸</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Intermediate</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Core & Abs</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Target your midsection for better posture and
-                    power.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 25m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 240
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="beginner"
-                data-desc="A low-impact walking routine to help you de-stress and recover after a long day."
-                data-video="https://www.youtube.com/watch?v=gC_L9qAHVJ8">
-                <div
-                    class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-emerald-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًںڑ¶</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Beginner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Evening Walk</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Maintain your step count with this relaxing
-                    active recovery.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 40m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 200
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="advanced"
-                data-desc="The ultimate fat burner using the 20-10 Tabata method for maximum efficiency."
-                data-video="https://www.youtube.com/watch?v=E_mbi_p_e6g">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-red-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں”¥</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Tabata Burn</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Short duration, maximum intensity bursts.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 20m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 400
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="intermediate"
-                data-desc="Tone and sculpt your muscles using controlled, precise Pilates movements."
-                data-video="https://www.youtube.com/watch?v=y3_m9P2_Iog">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-pink-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں§کâ€چâ™€ï¸ڈ</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Intermediate</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Pilates Sculpt</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Build long, lean muscles with this bodyweight
-                    flow.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 35m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 220
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="advanced"
-                data-desc="A high-energy cardio boxing session to improve coordination and burn calories fast."
-                data-video="https://www.youtube.com/watch?v=K6Yv6X9N-T0">
-                <div
-                    class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-gray-100 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں¥ٹ</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Boxing Burn</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">Unleash your power with explosive punches and
-                    drills.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 30m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 450
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="beginner"
-                data-desc="Deep static stretching to help release muscle tension and improve range of motion."
-                data-video="https://www.youtube.com/watch?v=2eA2Koq6pTI">
-                <div class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-cyan-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">âکپï¸ڈ</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Beginner</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Deep Recovery</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">The perfect end to a heavy training week.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 20m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 80 kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
-
-            <div class="card group bg-white p-5 rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-                data-category="advanced"
-                data-desc="Build explosive power in your legs with high-volume squats and lunges."
-                data-video="https://www.youtube.com/watch?v=Eml2xnoLpYE">
-                <div
-                    class="relative h-48 overflow-hidden rounded-3xl mb-5 bg-indigo-50 flex items-center justify-center">
-                    <span class="text-6xl group-hover:scale-110 transition duration-700">ًں¦µ</span>
-                    <span
-                        class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-primary uppercase shadow-sm">Advanced</span>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Leg Power</h3>
-                <p class="text-sm text-slate-500 mb-6 line-clamp-2 italic">A challenging routine for a stronger lower
-                    body.</p>
-                <div class="flex gap-4 text-xs font-bold text-slate-400 mb-6">
-                    <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-primary"></i> 50m</span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-fire text-primary"></i> 520
-                        kcal</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button
-                        class="view-plan-btn flex-1 bg-primary text-white py-3.5 rounded-2xl font-bold hover:bg-primaryDark transition shadow-lg shadow-primary/20">View
-                        Plan</button>
-                    <button
-                        class="heart-btn w-12 h-12 flex items-center justify-center border border-slate-100 rounded-2xl text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><i
-                            class="fa-solid fa-heart text-xl"></i></button>
-                </div>
-            </div>
+            @endforeach
 
         </div>
     </section>
+@endsection
+
+@section('scripts')
+<script>
+    // Load favorites from localStorage
+    const savedFavorites = JSON.parse(localStorage.getItem('workoutFavorites') || '[]');
+
+    // Apply saved favorites
+    document.querySelectorAll('.card').forEach((card, index) => {
+        const workoutName = card.dataset.name;
+        if (savedFavorites.includes(workoutName)) {
+            card.querySelector('.heart-btn').classList.add('active-fav');
+        }
+    });
+
+    // Filter functionality
+    document.querySelectorAll('.filter').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.dataset.filter;
+
+            // Handle favorites filter separately
+            if (filter === 'favorites') {
+                const favCards = document.querySelectorAll('.card .heart-btn.active-fav');
+
+                if (favCards.length === 0) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No Favorites Yet',
+                        text: 'Add workouts to favorites by clicking the heart icon!',
+                        confirmButtonColor: '#0B6B7A'
+                    });
+                    return;
+                }
+
+                document.querySelectorAll('.card').forEach(card => {
+                    const heartBtn = card.querySelector('.heart-btn');
+                    if (heartBtn.classList.contains('active-fav')) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Update active button (keep favorites button highlighted)
+                document.querySelectorAll('.filter').forEach(b => {
+                    if (b.dataset.filter !== 'favorites') {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('text-slate-500');
+                    }
+                });
+                this.style.backgroundColor = '#fef2f2';
+                this.style.borderColor = '#fee2e2';
+                return;
+            }
+
+            // Regular filters
+            document.querySelectorAll('.filter').forEach(b => {
+                b.classList.remove('active', 'bg-primary', 'text-white');
+                b.classList.add('text-slate-500');
+                if (b.dataset.filter === 'favorites') {
+                    b.style.backgroundColor = '';
+                    b.style.borderColor = '';
+                }
+            });
+            this.classList.add('active', 'bg-primary', 'text-white');
+            this.classList.remove('text-slate-500');
+
+            document.querySelectorAll('.card').forEach(card => {
+                const category = card.dataset.category;
+                if (filter === 'all' || filter === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // View plan button
+    document.querySelectorAll('.view-plan-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.card');
+            const name = card.dataset.name;
+            const desc = card.dataset.desc;
+            const duration = card.dataset.duration;
+            const calories = card.dataset.calories;
+            const equipment = card.dataset.equipment;
+            const instructions = card.dataset.instructions;
+            const videoUrl = card.dataset.video;
+
+            Swal.fire({
+                title: `<strong class="text-primary">${name}</strong>`,
+                html: `
+                    <div class="text-left space-y-4">
+                        <p class="text-sm text-slate-600 italic">${desc}</p>
+
+                        <div class="grid grid-cols-2 gap-4 p-4 bg-slate-50 rounded-2xl">
+                            <div class="text-center">
+                                <i class="fa-regular fa-clock text-primary text-xl mb-2"></i>
+                                <p class="text-xs text-slate-400 font-bold uppercase">Duration</p>
+                                <p class="text-lg font-black text-slate-800">${duration} min</p>
+                            </div>
+                            <div class="text-center">
+                                <i class="fa-solid fa-fire text-orange-500 text-xl mb-2"></i>
+                                <p class="text-xs text-slate-400 font-bold uppercase">Calories</p>
+                                <p class="text-lg font-black text-slate-800">${calories} kcal</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-blue-50 rounded-2xl">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-dumbbell text-primary"></i>
+                                <p class="text-xs font-bold text-slate-700 uppercase">Equipment Needed</p>
+                            </div>
+                            <p class="text-sm text-slate-600">${equipment}</p>
+                        </div>
+
+                        <div class="p-4 bg-emerald-50 rounded-2xl">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-list-check text-emerald-600"></i>
+                                <p class="text-xs font-bold text-slate-700 uppercase">Instructions</p>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed">${instructions}</p>
+                        </div>
+
+                        ${videoUrl ? `
+                        <div class="mt-6 p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl text-center border-2 border-red-100">
+                            <i class="fa-brands fa-youtube text-red-600 text-3xl mb-2"></i>
+                            <p class="text-xs text-slate-600 mb-2">Follow along with the video tutorial</p>
+                        </div>
+                        ` : `
+                        <div class="mt-6 p-4 border-2 border-dashed border-slate-200 rounded-2xl text-center">
+                            <p class="text-xs text-slate-400">Ready to begin? Let's get moving! 💪</p>
+                        </div>
+                        `}
+                    </div>
+                `,
+                width: 700,
+                confirmButtonColor: '#0B6B7A',
+                confirmButtonText: videoUrl ? '<i class="fa-solid fa-play mr-2"></i> Watch on YouTube' : '<i class="fa-solid fa-dumbbell mr-2"></i> Start Workout',
+                showCancelButton: true,
+                cancelButtonText: 'Close',
+                cancelButtonColor: '#94A3B8'
+            }).then((result) => {
+                if (result.isConfirmed && videoUrl) {
+                    window.open(videoUrl, '_blank');
+                }
+            });
+        });
+    });
+
+    // Favorite button
+    document.querySelectorAll('.heart-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('active-fav');
+
+            const card = this.closest('.card');
+            const workoutName = card.dataset.name;
+            let favorites = JSON.parse(localStorage.getItem('workoutFavorites') || '[]');
+
+            if (this.classList.contains('active-fav')) {
+                if (!favorites.includes(workoutName)) {
+                    favorites.push(workoutName);
+                }
+            } else {
+                favorites = favorites.filter(name => name !== workoutName);
+            }
+
+            localStorage.setItem('workoutFavorites', JSON.stringify(favorites));
+        });
+    });
+</script>
 @endsection

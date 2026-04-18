@@ -40,44 +40,45 @@
         </div>
 
         <nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-4">
-            <a href="admaindash.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-table-cells-large text-lg"></i> Dashboard
             </a>
 
             <div class="py-4 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Manage Content</div>
 
             <div class="space-y-1">
-                <a href="adminrecipes.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+                <a href="{{ route('admin.recipes.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                     <i class="fa-solid fa-utensils w-5"></i> Manage Recipes
                 </a>
                 <div class="pl-12 space-y-2 pb-2">
-                    <a href="#" data-cat="breakfast" class="block text-sm text-sidebarText hover:text-primary transition-colors">Breakfast</a>
-                    <a href="#" data-cat="lunch" class="block text-sm text-sidebarText hover:text-primary transition-colors">Lunch</a>
-                    <a href="#" data-cat="dinner" class="block text-sm text-sidebarText hover:text-primary transition-colors">Dinner</a>
-                    <a href="#" data-cat="snack" class="block text-sm text-sidebarText hover:text-primary transition-colors">Snack</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'breakfast']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Breakfast</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'lunch']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Lunch</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'dinner']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Dinner</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'snack']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Snack</a>
                 </div>
             </div>
 
-            <a href="admainwork.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.workouts.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-bolt-lightning w-5"></i> Manage Workouts
             </a>
-            <a href="admaindaily.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.daily-plans.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-calendar w-5"></i> Daily Wellness Plan
             </a>
-                           <a href="admintips.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
-
+            <a href="{{ route('admin.tips.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-lightbulb w-5"></i> Manage Health Tips
             </a>
-                        <a href="#" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all">
-
+            <a href="{{ route('admin.hydration.index') }}" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-droplet w-5"></i> Manage Drink Water
             </a>
         </nav>
 
         <div class="p-6 border-t border-slate-100">
-            <a href="#" class="flex items-center gap-3 text-red-500 font-bold text-sm hover:translate-x-1 transition-transform">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
-            </a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="flex items-center gap-3 text-red-500 font-bold text-sm hover:translate-x-1 transition-transform">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -88,19 +89,11 @@
                 <input type="text" placeholder="Search..." class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 transition-all">
             </div>
 
-            <div class="flex items-center gap-4">
-                <button class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center relative text-slate-500 hover:bg-slate-50 transition-all">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">3</span>
-                </button>
-                <button class="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-all">
-                    <i class="fa-regular fa-user"></i>
-                </button>
-            </div>
+            @include('admin.partials.notifications')
         </header>
         <main class="flex-1 overflow-y-auto p-10">
             <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
+
                 <div class="lg:col-span-4 space-y-6">
                     <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
                         <h3 class="text-lg font-black text-slate-800 mb-6">Settings</h3>
@@ -130,7 +123,7 @@
                                 <i class="fa-solid fa-droplet text-cyan-400 text-sm"></i>
                             </div>
                         </div>
-                        
+
                         <div class="mb-12">
                             <div class="flex items-baseline justify-center gap-1">
                                 <span id="waterCount" class="text-7xl font-black text-slate-900 tracking-tighter">0</span>
@@ -141,7 +134,7 @@
 
                         <div class="grid grid-cols-4 sm:grid-cols-8 gap-4" id="newCupsContainer">
                             </div>
-                        
+
                         <div class="mt-12 p-6 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
                             <p class="text-[10px] text-slate-400 italic font-medium">Interactive Preview: Click a cup to simulate user drinking</p>
                         </div>
@@ -176,7 +169,7 @@
                     </div>
                     <span class="text-[8px] font-black text-slate-300 mt-3 uppercase tracking-tighter">${i + 1}</span>
                 `;
-                
+
                 cup.onclick = () => {
                     // إذا ضغط على كأس ممتلئ بالفعل، يتم تفريغه هو وما بعده
                     // إذا ضغط على كأس فارغ، يتم تعبئته هو وما قبله
@@ -201,7 +194,7 @@
                         vessel.style.borderColor = "#22D3EE";
                         vessel.style.boxShadow = "0 10px 15px -3px rgba(34, 211, 238, 0.2)";
                         surfaces[i].style.opacity = "1";
-                    }, i * 50); 
+                    }, i * 50);
                 } else {
                     fills[i].style.height = "0%";
                     vessel.style.borderColor = "#F1F5F9";
@@ -220,7 +213,7 @@
                 goalText.innerText = `/${dailyGoal}`;
                 activeCups = 0; // إعادة التصفير عند تغيير الهدف
                 createCups(dailyGoal);
-                
+
                 // تنبيه بسيط للنجاح
                 const originalText = updateBtn.innerText;
                 updateBtn.innerText = "Goal Updated!";

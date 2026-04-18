@@ -50,6 +50,13 @@
                         class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-2xl font-bold hover:shadow-md transition-all">Learn
                         More</a>
                 </div>
+                <div class="mt-6">
+                    <a href="{{ route('admin.login') }}"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-primary transition-colors">
+                        <i class="fas fa-lock"></i>
+                        <span>Admin Login</span>
+                    </a>
+                </div>
             </div>
 
             <div class="reveal relative h-[400px] md:h-[500px] rounded-4xl overflow-hidden shadow-2xl group">
@@ -59,9 +66,9 @@
                 <div class="h-full relative overflow-hidden" id="sliderTrack">
                     <div class="slide active"><img src="{{ asset('images/hero-1.jpg') }}"
                             class="w-full h-full object-cover" alt="Wellness journey"></div>
-                    <div class="slide"><img src="../images/healthy.jfif" class="w-full h-full object-cover"
+                    <div class="slide"><img src="{{ asset('images/hero-3.jpg') }}" class="w-full h-full object-cover"
                             alt="Healthy lifestyle"></div>
-                    <div class="slide"><img src="../images/hero-2.jpg" class="w-full h-full object-cover"
+                    <div class="slide"><img src="{{ asset('images/hero-2.jpg') }}" class="w-full h-full object-cover"
                             alt="Fitness and nutrition"></div>
                 </div>
 
@@ -122,9 +129,15 @@
                     <h3 class="text-xl font-bold mb-3">Daily Plans</h3>
                     <p class="text-slate-500 text-sm mb-6 leading-relaxed">Personalized daily schedules tailored to your
                         goals, lifestyle, and preferences for consistent progress.</p>
-                    <a href="signup.html"
+                    @guest
+                    <a href="javascript:void(0)" onclick="showLoginPrompt()"
                         class="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn
-                        more <span>â†’</span></a>
+                        more <span>→</span></a>
+                    @else
+                    <a href="{{ route('daily-plan') }}"
+                        class="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn
+                        more <span>→</span></a>
+                    @endguest
                 </div>
 
                 <div
@@ -141,7 +154,11 @@
                     <h3 class="text-xl font-bold mb-3 text-slate-900">Healthy Recipes</h3>
                     <p class="text-slate-500 text-sm mb-6">Delicious, nutritious meal ideas with detailed nutrition
                         information and easy-to-follow instructions.</p>
-                    <a href="signup.html" class="text-accent font-bold text-sm flex items-center gap-2">Learn more â†’</a>
+                    @guest
+                    <a href="javascript:void(0)" onclick="showLoginPrompt()" class="text-accent font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn more <span>→</span></a>
+                    @else
+                    <a href="{{ route('recipes') }}" class="text-accent font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn more <span>→</span></a>
+                    @endguest
                 </div>
 
                 <div
@@ -158,8 +175,11 @@
                     <h3 class="text-xl font-bold mb-3 text-slate-900">Workout Programs</h3>
                     <p class="text-slate-500 text-sm mb-6">Customized exercise routines for all fitness levels, from
                         beginner-friendly to advanced training.</p>
-                    <a href="signup.html" class="text-sky-600 font-bold text-sm flex items-center gap-2">Learn more
-                        â†’</a>
+                    @guest
+                    <a href="javascript:void(0)" onclick="showLoginPrompt()" class="text-sky-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn more <span>→</span></a>
+                    @else
+                    <a href="{{ route('workouts') }}" class="text-sky-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn more <span>→</span></a>
+                    @endguest
                 </div>
 
                 <div
@@ -175,8 +195,11 @@
                     <h3 class="text-xl font-bold mb-3">Water Tracking</h3>
                     <p class="text-slate-500 text-sm mb-6">Simple hydration monitoring with reminders to help you
                         maintain optimal water intake throughout the day.</p>
-                    <a href="signup.html" class="text-primary font-bold text-sm flex items-center gap-2">Learn more
-                        â†’</a>
+                    @guest
+                    <a href="javascript:void(0)" onclick="showLoginPrompt()" class="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn more <span>→</span></a>
+                    @else
+                    <a href="{{ route('water-tracking') }}" class="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">Learn more <span>→</span></a>
+                    @endguest
                 </div>
             </div>
         </div>
@@ -202,59 +225,44 @@
                     <h2 class="text-4xl md:text-5xl font-black text-slate-900 leading-tight italic">Real Results from
                         Real People</h2>
                 </div>
+                @auth
+                <button onclick="openStoryModal()" class="reveal px-8 py-4 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all hover:shadow-lg flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    Share Your Story
+                </button>
+                @endauth
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
+                @forelse($stories as $story)
                 <div
                     class="reveal group p-8 bg-white rounded-[2.5rem] border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
                     <p class="text-slate-600 italic leading-relaxed mb-8 relative">
                         <span class="text-5xl text-primary/10 absolute -top-6 -left-2 font-serif font-black">"</span>
-                        Balance+ helped me develop consistent healthy habits without overwhelming me. The daily plans
-                        keep me accountable and motivated every single day.
+                        {{ $story->story }}
                     </p>
                     <div class="flex items-center gap-4">
-                        <img src="../images/user1.jpg" alt="Sarah M."
+                        @if($story->image)
+                        <img src="{{ asset($story->image) }}" alt="{{ $story->name }}"
                             class="w-12 h-12 rounded-full border-2 border-primary object-cover shadow-md">
+                        @else
+                        <div class="w-12 h-12 rounded-full border-2 border-primary bg-primary/10 flex items-center justify-center shadow-md">
+                            <span class="text-primary font-bold text-lg">{{ substr($story->name, 0, 1) }}</span>
+                        </div>
+                        @endif
                         <div>
-                            <strong class="block text-slate-900">Sarah M.</strong>
-                            <span class="text-xs text-slate-500">Health Enthusiast</span>
+                            <strong class="block text-slate-900">{{ $story->name }}</strong>
+                            @if($story->title)
+                            <span class="text-xs text-slate-500">{{ $story->title }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
-
-                <div
-                    class="reveal group p-8 bg-white rounded-[2.5rem] border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                    <p class="text-slate-600 italic leading-relaxed mb-8 relative">
-                        <span class="text-5xl text-primary/10 absolute -top-6 -left-2 font-serif font-black">"</span>
-                        The personalized workout programs and recipe suggestions made it so easy to stay on track. I've
-                        never felt better in my life.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <img src="../images/user2.jpg" alt="Maria K."
-                            class="w-12 h-12 rounded-full border-2 border-primary object-cover shadow-md">
-                        <div>
-                            <strong class="block text-slate-900">Maria K.</strong>
-                            <span class="text-xs text-slate-500">Fitness Professional</span>
-                        </div>
-                    </div>
+                @empty
+                <div class="col-span-3 text-center py-12">
+                    <p class="text-slate-500 text-lg">No stories yet. Be the first to share your success story!</p>
                 </div>
-
-                <div
-                    class="reveal group p-8 bg-white rounded-[2.5rem] border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                    <p class="text-slate-600 italic leading-relaxed mb-8 relative">
-                        <span class="text-5xl text-primary/10 absolute -top-6 -left-2 font-serif font-black">"</span>
-                        As a busy parent, Balance+ gives me the structure I need without adding stress. The app
-                        integrates seamlessly into my daily routine.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <img src="../images/user3.jpg" alt="James L."
-                            class="w-12 h-12 rounded-full border-2 border-primary object-cover shadow-md">
-                        <div>
-                            <strong class="block text-slate-900">James L.</strong>
-                            <span class="text-xs text-slate-500">Working Parent</span>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -287,7 +295,7 @@
             <div
                 class="reveal max-w-lg mx-auto bg-gradient-to-br from-primary/5 to-accent/5 p-12 rounded-[3rem] border-2 border-primary/10 shadow-sm hover:-translate-y-1 transition-all group">
                 <p class="text-xl text-slate-700 font-medium mb-8">Ready to begin your wellness journey?</p>
-                <a href="signup.html"
+                <a href="{{ route('signup') }}"
                     class="px-10 py-4 bg-primary text-white rounded-2xl font-black hover:bg-primaryDark shadow-lg shadow-primary/30 transition-all inline-block">Create
                     Free Account</a>
             </div>
@@ -310,7 +318,7 @@
                     <a href="#story" class="text-primary font-black text-lg hover:underline transition-all"></a>
                 </div>
                 <div class="relative group">
-                    <img src="../images/banner.jpg" alt="Balance+ story"
+                    <img src="{{ asset('images/banner.jpg') }}" alt="Balance+ story"
                         class="rounded-3xl shadow-2xl group-hover:rotate-1 transition-transform duration-500">
                     <div
                         class="absolute inset-0 border-2 border-primary/20 rounded-3xl translate-x-4 translate-y-4 -z-10 group-hover:translate-x-6 group-hover:translate-y-6 transition-all">
@@ -319,14 +327,130 @@
             </div>
         </div>
     </section>
+@endsection
 
-    <footer class="bg-[#0F172A] text-white pt-16 pb-8 mt-auto">
-        <div class="max-w-[1100px] mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-10 text-sm">
-            <div>
-                <div class="text-accent text-2xl font-bold mb-3">Balance+</div>
-                <p class="text-slate-400 leading-relaxed">Science-based nutrition and workouts for a healthier version
-                    of you.</p>
-            </div>
-            <div>
-                <h4 class="font-bold mb-5 uppercase tracking-wider text-xs">Quick Links</h4>
+@section('scripts')
+<script>
+    function showLoginPrompt() {
+        Swal.fire({
+            title: 'Login Required',
+            html: `
+                <div class="text-center">
+                    <i class="fas fa-lock text-5xl text-primary mb-4"></i>
+                    <p class="text-gray-600 mb-4">You need to login to access this feature</p>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: '<i class="fas fa-sign-in-alt"></i> Login',
+            cancelButtonText: 'Create Account',
+            confirmButtonColor: '#0B6B7A',
+            cancelButtonColor: '#6FCF97',
+            reverseButtons: true,
+            customClass: {
+                confirmButton: 'px-6 py-3 rounded-xl font-bold',
+                cancelButton: 'px-6 py-3 rounded-xl font-bold'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '{{ route('login') }}';
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                window.location.href = '{{ route('signup') }}';
+            }
+        });
+    }
+
+    // Story Modal
+    function openStoryModal() {
+        Swal.fire({
+            title: '<span class="text-2xl font-black text-slate-900">Share Your Success Story</span>',
+            html: `
+                <form id="storyForm" action="{{ route('stories.store') }}" method="POST" enctype="multipart/form-data" class="text-left">
+                    @csrf
+                    <div class="space-y-4 mt-6">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Your Name *</label>
+                            <input type="text" name="name" required
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                                placeholder="e.g. Sarah M.">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Title/Role (Optional)</label>
+                            <input type="text" name="title"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                                placeholder="e.g. Health Enthusiast">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Your Story * (min 50 characters)</label>
+                            <textarea name="story" required rows="5"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary"
+                                placeholder="Share your journey with Balance+..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Your Photo (Optional)</label>
+                            <input type="file" name="image" accept="image/*"
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <p class="text-xs text-slate-500 mt-1">Max 10MB - JPEG, PNG, JPG, GIF, WEBP</p>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                            <p class="text-xs text-blue-700">
+                                <i class="fas fa-info-circle"></i> Your story will be reviewed by our team before being published.
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: '<i class="fas fa-paper-plane"></i> Submit Story',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#0B6B7A',
+            cancelButtonColor: '#94A3B8',
+            width: '600px',
+            customClass: {
+                confirmButton: 'px-6 py-3 rounded-xl font-bold',
+                cancelButton: 'px-6 py-3 rounded-xl font-bold'
+            },
+            preConfirm: () => {
+                const form = document.getElementById('storyForm');
+                const formData = new FormData(form);
+                const story = formData.get('story');
+
+                if (story.length < 50) {
+                    Swal.showValidationMessage('Story must be at least 50 characters long');
+                    return false;
+                }
+
+                return true;
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('storyForm').submit();
+            }
+        });
+    }
+
+    // Show success message if story was submitted
+    @if(session('story_success'))
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: 'success',
+            title: '<span class="text-2xl font-black text-slate-900">Story Submitted Successfully!</span>',
+            html: `
+                <div class="text-left mt-4">
+                    <p class="text-slate-600 mb-4">Thank you for sharing your success story! Your story has been submitted and will be reviewed by our team.</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                        <p class="text-sm text-blue-700">
+                            <i class="fas fa-info-circle"></i> Once approved, your story will inspire others on their wellness journey!
+                        </p>
+                    </div>
+                </div>
+            `,
+            confirmButtonText: 'Got it!',
+            confirmButtonColor: '#0B6B7A',
+            customClass: {
+                confirmButton: 'px-6 py-3 rounded-xl font-bold'
+            }
+        });
+    });
+    @endif
+</script>
 @endsection

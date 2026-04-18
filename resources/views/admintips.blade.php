@@ -43,42 +43,45 @@
         </div>
 
         <nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-4">
-            <a href="admaindash.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-table-cells-large text-lg"></i> Dashboard
             </a>
 
             <div class="py-4 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Manage Content</div>
 
             <div class="space-y-1">
-                <a href="adminrecipes.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+                <a href="{{ route('admin.recipes.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                     <i class="fa-solid fa-utensils w-5"></i> Manage Recipes
                 </a>
                 <div class="pl-12 space-y-2 pb-2">
-                    <a href="#" data-cat="breakfast" class="block text-sm text-sidebarText hover:text-primary transition-colors">Breakfast</a>
-                    <a href="#" data-cat="lunch" class="block text-sm text-sidebarText hover:text-primary transition-colors">Lunch</a>
-                    <a href="#" data-cat="dinner" class="block text-sm text-sidebarText hover:text-primary transition-colors">Dinner</a>
-                    <a href="#" data-cat="snack" class="block text-sm text-sidebarText hover:text-primary transition-colors">Snack</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'breakfast']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Breakfast</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'lunch']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Lunch</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'dinner']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Dinner</a>
+                    <a href="{{ route('admin.recipes.index', ['meal_type' => 'snack']) }}" class="block text-sm text-sidebarText hover:text-primary transition-colors">Snack</a>
                 </div>
             </div>
 
-            <a href="admainwork.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.workouts.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-bolt-lightning w-5"></i> Manage Workouts
             </a>
-            <a href="admaindaily.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.daily-plans.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-calendar w-5"></i> Daily Wellness Plan
             </a>
-            <a href="admintips.html" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.tips.index') }}" class="nav-active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-lightbulb w-5"></i> Manage Health Tips
             </a>
-            <a href="admindrink.html" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
+            <a href="{{ route('admin.hydration.index') }}" class="flex items-center gap-3 px-4 py-3 text-sidebarText hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all">
                 <i class="fa-solid fa-droplet w-5"></i> Manage Drink Water
             </a>
         </nav>
 
         <div class="p-6 border-t border-slate-100">
-            <a href="#" class="flex items-center gap-3 text-red-500 font-bold text-sm hover:translate-x-1 transition-transform">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
-            </a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="flex items-center gap-3 text-red-500 font-bold text-sm hover:translate-x-1 transition-transform">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+                </button>
+            </form>
         </div>
     </aside>
 
@@ -99,7 +102,7 @@
                 </button>
             </div>
         </header>
-       
+
         <main class="flex-1 overflow-y-auto p-10">
             <div id="randomTipContainer" class="max-w-4xl mx-auto mb-10 fade-in"></div>
 
@@ -120,7 +123,7 @@
                     </thead>
                     <tbody id="tipsTableBody" class="divide-y divide-slate-50"></tbody>
                 </table>
-                
+
                 <div class="flex justify-center p-10 border-t border-slate-50">
                   <button onclick="addNewTip()" class="bg-primary text-white px-12 py-4 rounded-[1.5rem] font-bold text-[12px] uppercase tracking-[0.15em] shadow-2xl shadow-primary/30 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-3">
     <div class="bg-white/20 w-6 h-6 rounded-full flex items-center justify-center">

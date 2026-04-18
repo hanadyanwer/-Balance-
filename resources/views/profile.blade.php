@@ -208,6 +208,24 @@
 
 @section('scripts')
 <script>
+    // Show success message if redirected after save
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === '1') {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative mb-4';
+        successDiv.role = 'alert';
+        successDiv.innerHTML = '<strong class="font-bold">Success! </strong><span class="block sm:inline">Profile updated successfully!</span>';
+
+        const main = document.querySelector('main');
+        main.insertBefore(successDiv, main.firstChild);
+
+        // Remove success parameter from URL
+        window.history.replaceState({}, document.title, '{{ route("profile") }}');
+
+        // Remove message after 5 seconds
+        setTimeout(() => successDiv.remove(), 5000);
+    }
+
     function toggleEdit() {
         const inputs = document.querySelectorAll('input:not([type="file"])');
         const saveBtn = document.getElementById('saveBtn');
@@ -256,22 +274,58 @@
     // Handle form submission errors
     const form = document.getElementById('profileForm');
 
-    // Refresh CSRF token before submit
-    form.addEventListener('submit', function(e) {
-        const csrfInput = form.querySelector('input[name="_token"]');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    // Refresh CSRF token before submit - fetch from server
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // منع الإرسال المباشر
 
-        if (csrfToken) {
-            csrfInput.value = csrfToken.getAttribute('content');
-        }
+        const saveBtn = document.getElementById('saveBtn');
+        const originalText = saveBtn.textContent;
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
 
-        // Double check if CSRF token exists
-        if (!csrfInput || !csrfInput.value) {
-            e.preventDefault();
-            if (confirm('Your session has expired. Click OK to refresh the page and try again.')) {
-                window.location.reload();
+        try {
+            // جلب CSRF token جديد من السيرفر
+            const tokenResponse = await fetch('/refresh-csrf');
+            const tokenData = await tokenResponse.json();
+
+            // تجهيز البيانات للإرسال
+            const formData = new FormData(form);
+            formData.set('_token', tokenData.token);
+
+            // إرسال البيانات
+            const response = await fetch('{{ route("profile.update") }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                }
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                // نجح الحفظ - إعادة تحميل الصفحة لعرض البيانات المحدثة
+                window.location.href = '{{ route("profile") }}?success=1';
+            } else if (response.status === 422 && result.errors) {
+                // Validation errors
+                let errorMessages = '';
+                for (let field in result.errors) {
+                    errorMessages += result.errors[field].join('\n') + '\n';
+                }
+                alert('Validation Errors:\n' + errorMessages);
+                saveBtn.disabled = false;
+                saveBtn.textContent = originalText;
+            } else {
+                alert('Error: ' + (result.message || 'Failed to save profile'));
+                saveBtn.disabled = false;
+                saveBtn.textContent = originalText;
             }
-            return false;
+        } catch (error) {
+            console.error('Error saving profile:', error);
+            alert('An error occurred while saving. Please try again.');
+            saveBtn.disabled = false;
+            saveBtn.textContent = originalText;
         }
     });
 
