@@ -213,33 +213,33 @@
 
                         <input type="hidden" name="health_goal" id="health_goal" value="{{ old('health_goal') }}">
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="grid grid-cols-2 gap-4 mb-8">
                             <!-- Lose Weight -->
-                            <div class="goal-card card-glass p-6 text-center" onclick="selectGoal('lose_weight', this)">
-                                <div class="goal-icon text-5xl mb-4">🏃‍♂️</div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Lose Weight</h3>
-                                <p class="text-gray-600">I want to lose weight and reach my ideal weight</p>
+                            <div class="goal-card card-glass p-4 text-center" onclick="selectGoal('lose_weight', this)">
+                                <div class="goal-icon text-4xl mb-4">🏃‍♂️</div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Lose Weight</h3>
+                                <p class="text-sm text-gray-600">I want to lose weight and reach my ideal weight</p>
                             </div>
 
                             <!-- Gain Weight -->
-                            <div class="goal-card card-glass p-6 text-center" onclick="selectGoal('gain_weight', this)">
-                                <div class="goal-icon text-5xl mb-4">💪</div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Gain Weight</h3>
-                                <p class="text-gray-600">I want to gain weight in a healthy way</p>
+                            <div class="goal-card card-glass p-4 text-center" onclick="selectGoal('gain_weight', this)">
+                                <div class="goal-icon text-4xl mb-4">💪</div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Gain Weight</h3>
+                                <p class="text-sm text-gray-600">I want to gain weight in a healthy way</p>
                             </div>
 
                             <!-- Build Muscle -->
-                            <div class="goal-card card-glass p-6 text-center" onclick="selectGoal('build_muscle', this)">
-                                <div class="goal-icon text-5xl mb-4">🏋️</div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Build Muscle</h3>
-                                <p class="text-gray-600">I want to build muscle and increase my strength</p>
+                            <div class="goal-card card-glass p-4 text-center" onclick="selectGoal('build_muscle', this)">
+                                <div class="goal-icon text-4xl mb-4">🏋️</div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Build Muscle</h3>
+                                <p class="text-sm text-gray-600">I want to build muscle and increase my strength</p>
                             </div>
 
                             <!-- Maintain -->
-                            <div class="goal-card card-glass p-6 text-center" onclick="selectGoal('maintain', this)">
-                                <div class="goal-icon text-5xl mb-4">⚖️</div>
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Maintain Weight</h3>
-                                <p class="text-gray-600">I want to maintain my current weight</p>
+                            <div class="goal-card card-glass p-4 text-center" onclick="selectGoal('maintain', this)">
+                                <div class="goal-icon text-4xl mb-4">⚖️</div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Maintain Weight</h3>
+                                <p class="text-sm text-gray-600">I want to maintain my current weight</p>
                             </div>
                         </div>
 

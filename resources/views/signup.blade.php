@@ -30,12 +30,12 @@
 
                     <input type="password" name="password" id="password"
                         class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-primary focus:outline-none transition-all placeholder:text-slate-300 @error('password') border-red-500 @enderror"
-                        placeholder="Password (8+ characters)">
+                        placeholder="Password (8+ characters)">>
                     @error('password')<p class="text-red-500 text-xs">{{ $message }}</p>@enderror
 
                     <input type="password" name="password_confirmation" id="password_confirmation"
                         class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-primary focus:outline-none transition-all placeholder:text-slate-300"
-                        placeholder="Confirm Password">
+                        placeholder="Confirm Password">>
 
                     <div class="grid grid-cols-3 gap-3">
                         <select id="dobMonth"
