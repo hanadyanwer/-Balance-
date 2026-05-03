@@ -40,7 +40,7 @@
                         <div class="flex justify-between items-center mb-2 ml-1">
                             <label
                                 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Password</label>
-                            <a href="#" class="text-[10px] font-bold text-primary hover:underline">Forgot?</a>
+                            <a href="{{ route('password.request') }}" class="text-[10px] font-bold text-primary hover:underline">Forgot?</a>
                         </div>
                         <div class="relative">
                             <span class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300">
