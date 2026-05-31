@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DailyPlanController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\WaterTrackingController;
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\SearchController;
 
 /*
@@ -24,9 +26,9 @@ use App\Http\Controllers\SearchController;
 // الصفحات الرئيسية
 Route::get('/', [PageController::class, 'index'])->name('index');
 Route::get('/home', [PageController::class, 'home'])->name('home');
-Route::get('/workouts', [PageController::class, 'workouts'])->name('workouts');
+Route::get('/workouts', [WorkoutController::class, 'index'])->name('workouts');
 Route::get('/services', [PageController::class, 'services'])->name('services');
-Route::get('/recipes', [PageController::class, 'recipes'])->name('recipes');
+Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes');
 
 // CSRF Token Refresh Route
 Route::get('/refresh-csrf', function() {
