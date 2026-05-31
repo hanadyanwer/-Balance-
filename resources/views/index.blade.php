@@ -96,6 +96,95 @@
         </div>
     </section>
 
+    @auth
+    <section class="py-16 bg-gradient-to-br from-primary/5 to-accent/5">
+        <div class="container mx-auto px-6">
+            <div class="reveal text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-3">
+                    <i class="fas fa-chart-line text-primary"></i> Your Health Profile
+                </h2>
+                <p class="text-slate-600">Track your progress toward your goals and stay motivated.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="reveal bg-white rounded-2xl p-6 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-4xl">📏</span>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full {{ auth()->user()->bmi ? (auth()->user()->bmi < 18.5 ? 'bg-blue-100 text-blue-700' : (auth()->user()->bmi < 25 ? 'bg-green-100 text-green-700' : (auth()->user()->bmi < 30 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'))) : 'bg-gray-100 text-gray-700' }}">
+                            {{ auth()->user()->getBMICategory() ?? 'Not Calculated' }}
+                        </span>
+                    </div>
+                    <h3 class="text-slate-500 text-sm font-semibold mb-2">BMI</h3>
+                    <p class="text-3xl font-black text-slate-900">{{ auth()->user()->bmi ?? auth()->user()->calculateBMI() ?? '--' }}</p>
+                    <p class="text-xs text-slate-400 mt-2">Body Mass Index</p>
+                </div>
+
+                <div class="reveal bg-white rounded-2xl p-6 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-4xl">⚖️</span>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-primary/10 text-primary">Weight</span>
+                    </div>
+                    <h3 class="text-slate-500 text-sm font-semibold mb-2">Current Weight</h3>
+                    <p class="text-3xl font-black text-slate-900">{{ auth()->user()->weight ?? '--' }}</p>
+                    <p class="text-xs text-slate-400 mt-2">kilograms</p>
+                </div>
+
+                <div class="reveal bg-white rounded-2xl p-6 shadow-lg border border-slate-100 hover:shadow-xl transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-4xl">📐</span>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-accent/10 text-accent">Height</span>
+                    </div>
+                    <h3 class="text-slate-500 text-sm font-semibold mb-2">Height</h3>
+                    <p class="text-3xl font-black text-slate-900">{{ auth()->user()->height ?? '--' }}</p>
+                    <p class="text-xs text-slate-400 mt-2">centimeters</p>
+                </div>
+
+                <div class="reveal bg-gradient-to-br from-primary to-accent rounded-2xl p-6 shadow-lg text-white hover:shadow-xl transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-4xl">🎯</span>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-white/20">Your Goal</span>
+                    </div>
+                    <h3 class="text-white/80 text-sm font-semibold mb-2">Goal</h3>
+                    <p class="text-2xl font-black">{{ auth()->user()->getGoalInArabic() ?? 'Not Set' }}</p>
+                    <a href="{{ route('profile.setup') }}" class="text-xs text-white/80 mt-2 inline-block hover:text-white">Update Profile →</a>
+                </div>
+            </div>
+
+            @if(auth()->user()->health_goal)
+            <div class="reveal max-w-2xl mx-auto mt-8 bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+                <div class="flex items-start gap-4">
+                    <div class="text-4xl">💪</div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 mb-2">Keep Going!</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            @if(auth()->user()->health_goal == 'lose_weight')
+                                You are on the right path to lose weight. Stay consistent with your daily plan and nutrition.
+                            @elseif(auth()->user()->health_goal == 'gain_weight')
+                                You are building healthy mass. Keep your meals balanced and stay active.
+                            @elseif(auth()->user()->health_goal == 'build_muscle')
+                                Muscle development takes time. Keep training smart and eating enough protein.
+                            @else
+                                Maintain your healthy habits and stay consistent for long-term balance.
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+    </section>
+    @else
+    <section class="py-16 bg-gradient-to-br from-primary/10 to-accent/10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-2xl mx-auto bg-white rounded-3xl p-10 shadow-lg border border-slate-100">
+                <h2 class="text-3xl font-black text-slate-900 mb-4">Get Personalized Health Insights</h2>
+                <p class="text-slate-600 mb-6">Log in to see your goal, height, weight, and daily wellness advice right on the homepage.</p>
+                <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-8 py-4 bg-primary text-white rounded-2xl font-bold shadow-lg hover:bg-primaryDark transition-all">Log In to View Profile</a>
+            </div>
+        </div>
+    </section>
+    @endauth
+
     <div class="w-full leading-[0] h-[60px] bg-bg">
         <svg class="relative block w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M0,0 C300,80 600,80 900,40 C1050,20 1150,0 1200,0 L1200,120 L0,120 Z" fill="#FFFFFF"></path>

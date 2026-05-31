@@ -6,30 +6,47 @@ use App\Models\Recipe;
 use App\Models\Workout;
 use App\Models\Tip;
 use App\Models\Story;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     public function home()
     {
-        $stories = Story::where('is_approved', true)->latest()->take(6)->get();
+        // Cache stories for 1 hour
+        $stories = Cache::remember('approved_stories_home', 3600, function () {
+            return Story::where('is_approved', true)
+                ->latest()
+                ->take(6)
+                ->get();
+        });
         return view('home', compact('stories'));
     }
 
-    public function workouts()
+    public function workouts(Request $request)
     {
-        $workouts = Workout::all();
+        // Paginate workouts (15 per page)
+        $workouts = Workout::paginate(15);
         return view('workouts', compact('workouts'));
     }
 
-    public function services()
+    public function services(Request $request)
     {
-        $tips = Tip::all();
+        // Paginate tips (12 per page)
+        $tips = Tip::paginate(12);
         return view('services', compact('tips'));
     }
 
-    public function recipes()
+    public function recipes(Request $request)
     {
-        $recipes = Recipe::all();
+        // Paginate recipes (12 per page) - can filter by meal_type
+        $query = Recipe::query();
+
+        if ($request->has('meal_type') && in_array($request->meal_type, ['breakfast', 'lunch', 'dinner', 'snack'])) {
+            $query->where('meal_type', $request->meal_type);
+        }
+
+        $recipes = $query->paginate(12);
         return view('Recipes', compact('recipes'));
     }
 

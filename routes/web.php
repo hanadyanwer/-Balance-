@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DailyPlanController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\WaterTrackingController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +27,17 @@ Route::get('/home', [PageController::class, 'home'])->name('home');
 Route::get('/workouts', [PageController::class, 'workouts'])->name('workouts');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/recipes', [PageController::class, 'recipes'])->name('recipes');
-Route::get('/water-tracking', [PageController::class, 'waterTracking'])->name('water-tracking');
 
 // CSRF Token Refresh Route
 Route::get('/refresh-csrf', function() {
     return response()->json(['token' => csrf_token()]);
 });
+
+// Search Routes (Public)
+Route::get('/search', [SearchController::class, 'global'])->name('search.global');
+Route::get('/search/recipes', [SearchController::class, 'recipes'])->name('search.recipes');
+Route::get('/search/workouts', [SearchController::class, 'workouts'])->name('search.workouts');
+Route::get('/search/tips', [SearchController::class, 'tips'])->name('search.tips');
 
 // Profile Setup Routes (للمستخدمين الجدد - يجب أن تكون قبل middleware profile.complete)
 Route::middleware('auth')->group(function () {
@@ -46,6 +53,12 @@ Route::middleware(['auth', 'profile.complete'])->group(function () {
     // Daily Plan Routes
     Route::get('/daily-plan', [DailyPlanController::class, 'index'])->name('daily-plan');
     Route::post('/daily-plan/regenerate', [DailyPlanController::class, 'regenerate'])->name('daily-plan.regenerate');
+
+    // Water Tracking Routes
+    Route::get('/water-tracking', [WaterTrackingController::class, 'index'])->name('water-tracking');
+    Route::post('/water-tracking/store', [WaterTrackingController::class, 'store'])->name('water-tracking.store');
+    Route::delete('/water-tracking/{id}', [WaterTrackingController::class, 'destroy'])->name('water-tracking.destroy');
+    Route::get('/water-tracking/api/stats', [WaterTrackingController::class, 'getStats'])->name('water-tracking.stats');
 
     // Story Routes
     Route::post('/stories', [StoryController::class, 'store'])->name('stories.store');

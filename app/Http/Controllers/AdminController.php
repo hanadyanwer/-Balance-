@@ -11,19 +11,22 @@ use App\Models\Notification;
 use App\Models\Story;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
-    // Dashboard
+    // Dashboard - Cache stats for 5 minutes
     public function dashboard()
     {
-        $stats = [
-            'users' => User::count(),
-            'recipes' => Recipe::count(),
-            'workouts' => Workout::count(),
-            'tips' => Tip::count(),
-            'daily_plans' => DailyPlan::count(),
-        ];
+        $stats = Cache::remember('admin_dashboard_stats', 300, function () {
+            return [
+                'users' => User::count(),
+                'recipes' => Recipe::count(),
+                'workouts' => Workout::count(),
+                'tips' => Tip::count(),
+                'daily_plans' => DailyPlan::count(),
+            ];
+        });
 
         // Get latest users
         $latestUsers = User::orderBy('created_at', 'desc')->take(5)->get();
@@ -42,7 +45,8 @@ class AdminController extends Controller
             $query->where('meal_type', $request->meal_type);
         }
 
-        $recipes = $query->orderBy('created_at', 'desc')->get();
+        // Paginate recipes (20 per page)
+        $recipes = $query->orderBy('created_at', 'desc')->paginate(20);
         $mealType = $request->meal_type;
 
         return view('admainrecipes', compact('recipes', 'mealType'));
@@ -238,7 +242,7 @@ class AdminController extends Controller
 
     public function tipsIndex()
     {
-        $tips = Tip::orderBy('created_at', 'desc')->get();
+        $tips = Tip::orderBy('created_at', 'desc')->paginate(20);
         return view('admaintips', compact('tips'));
     }
 
